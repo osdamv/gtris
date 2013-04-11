@@ -13,7 +13,7 @@ public class Main {
 	JFrame window = new JFrame("Gtris");
 	GtrisModel model = new GtrisModel();
 	GtrisCanvas canvas = new GtrisCanvas(model);
-	GtrisController controller = new GtrisController(model, window);
+	new GtrisController(model, window);
 	window.add(canvas);
 	canvas.setDoubleBuffered(true);
 	window.setBackground(new Color(120, 120, 120));

@@ -1,10 +1,12 @@
 package data;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 import shape.Pair;
+import shape.ShapeFinder;
 import canvas.Square;
 
 /**
@@ -49,6 +51,7 @@ public class GtrisModel implements Serializable {
 	    square.setFalling(false);
 	    return false;
 	}
+	square.setFalling(true);
 	square.decreasePosY();
 	return true;
     }
@@ -68,6 +71,39 @@ public class GtrisModel implements Serializable {
 		return s;
 	}
 	return null;
+    }
+
+    class CubeFinder extends ShapeFinder {
+
+	public CubeFinder(Square startSquare) {
+	    super(startSquare);
+	}
+
+	@Override
+	protected Square findSecond(Square square) {
+	    return findNextSquare(square.getPosX() + 1, square.getPosY());
+	}
+
+	@Override
+	protected Square findThird(Square square) {
+	    return findNextSquare(square.getPosX(), square.getPosY() + 1);
+	}
+
+	@Override
+	protected Square findFourth(Square square) {
+	    return findNextSquare(square.getPosX() - 1, square.getPosY());
+	}
+
+    }
+
+    public void searchCubes() {
+	HashSet<Square> toBeErased = new HashSet<Square>();
+	for (Square s : data) {
+	    CubeFinder c = new CubeFinder(s);
+	    toBeErased.addAll(c.getFound());
+	}
+
+	data.removeAll(toBeErased);
     }
 
     /**

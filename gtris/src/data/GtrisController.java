@@ -39,8 +39,9 @@ public class GtrisController {
 		while (model.dropSquare(square))
 		    ;
 	    }
-
-	new DecreasingThread(5000, -100) {
+	// add a new pair every 2 seconds, decrease the speed of fall every 2
+	// minutes 100 ms, with a minimum of 1 second
+	new NonFixedTimer(2000, -100, 120000, 1000) {
 
 	    @Override
 	    public void run() {
@@ -48,12 +49,19 @@ public class GtrisController {
 
 	    }
 	};
-
-	new DecreasingThread(500, -1) {
-
+	// drop elements
+	new NonFixedTimer(500, -10, 120000, 100) {
 	    @Override
 	    public void run() {
 		GtrisController.this.model.fallSquares();
+		GtrisController.this.model.searchCubes();
+	    }
+	};
+	// repaint thread
+	new NonFixedTimer(50, 0, 0, 50) {
+
+	    @Override
+	    public void run() {
 		window.repaint();
 
 	    }
