@@ -23,7 +23,7 @@ public abstract class DecreasingThread extends Timer {
 			schedule(new Task(), delay);
 		}
 
-	}
+	} 
 
 	public abstract void run();
 
