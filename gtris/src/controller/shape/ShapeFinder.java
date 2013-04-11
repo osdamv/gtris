@@ -1,4 +1,4 @@
-package shape;
+package controller.shape;
 
 import java.util.HashSet;
 

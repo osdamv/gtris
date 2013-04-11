@@ -5,8 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import shape.Pair;
-import shape.ShapeFinder;
+import controller.shape.Pair;
+import controller.shape.ShapeFinder;
+
 import canvas.Square;
 
 /**
@@ -46,7 +47,7 @@ public class GtrisModel implements Serializable {
      * @return false if cannot be dropped anymore, true otherwise
      */
     public boolean dropSquare(Square square) {
-	Square nextSquare = findNextSquare(square.getPosX(), square.getPosY() - 1);
+	Square nextSquare = findNextSquare(square.getPosX(), square.getPosY() - 1, data);
 	if (square.getPosY() == 0 || nextSquare != null) {
 	    square.setFalling(false);
 	    return false;
@@ -65,7 +66,7 @@ public class GtrisModel implements Serializable {
      *            coordinate in y axis
      * @return an square if found something, null otherwise
      */
-    private Square findNextSquare(int posx, int posy) {
+    private Square findNextSquare(int posx, int posy, Set<Square> data) {
 	for (Square s : data) {
 	    if (s.isInPosition(posx, posy))
 		return s;
@@ -81,17 +82,17 @@ public class GtrisModel implements Serializable {
 
 	@Override
 	protected Square findSecond(Square square) {
-	    return findNextSquare(square.getPosX() + 1, square.getPosY());
+	    return findNextSquare(square.getPosX() + 1, square.getPosY(), data);
 	}
 
 	@Override
 	protected Square findThird(Square square) {
-	    return findNextSquare(square.getPosX(), square.getPosY() + 1);
+	    return findNextSquare(square.getPosX(), square.getPosY() + 1, data);
 	}
 
 	@Override
 	protected Square findFourth(Square square) {
-	    return findNextSquare(square.getPosX() - 1, square.getPosY());
+	    return findNextSquare(square.getPosX() - 1, square.getPosY(), data);
 	}
 
     }

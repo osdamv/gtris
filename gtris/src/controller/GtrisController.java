@@ -1,12 +1,15 @@
-package data;
+package controller;
 
 import java.util.Random;
 
 import javax.swing.JFrame;
 
-import shape.Pair;
+import controller.shape.Pair;
+
 import canvas.Color;
 import canvas.Square;
+import data.Config;
+import data.GtrisModel;
 
 /**
  * Canvas and model controller
@@ -38,6 +41,7 @@ public class GtrisController {
 		model.add(square);
 		while (model.dropSquare(square))
 		    ;
+		square.setInFinallCoordY();
 	    }
 	// add a new pair every 2 seconds, decrease the speed of fall every 2
 	// minutes 100 ms, with a minimum of 1 second
@@ -58,7 +62,7 @@ public class GtrisController {
 	    }
 	};
 	// repaint thread
-	new NonFixedTimer(50, 0, 0, 50) {
+	new NonFixedTimer(25, -1, 120000, 25) {
 
 	    @Override
 	    public void run() {

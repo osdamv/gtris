@@ -1,4 +1,4 @@
-package data;
+package controller;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,7 +35,7 @@ public abstract class NonFixedTimer extends Timer {
 	this.minimumDelay = minimumDelay;
 	this.delta = delta;
 	this.timeToApllyDelay = timeToApllyDelay;
-	schedule(new Task(), 0);
+	schedule(new Task(), delay);
     }
 
     /**

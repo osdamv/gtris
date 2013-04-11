@@ -18,6 +18,7 @@ public class Square implements Serializable, Comparable<Square> {
     private int posX = 0;
     private int posY = Config.getInstance().getCanvasHeight() - 1;
     private boolean falling = false;
+    private int coordY = 0;
 
     public int getPosX() {
 	return posX;
@@ -52,7 +53,19 @@ public class Square implements Serializable, Comparable<Square> {
     }
 
     public int getCoordY() {
-	return Config.getInstance().getCanvasHeightPx() - ((posY + 1) * Config.getInstance().getSquareHeightPx());
+	int target = Config.getInstance().getCanvasHeightPx() - ((posY + 1) * Config.getInstance().getSquareHeightPx());
+	if ((target - coordY) == 0)
+	    ;
+	else if ((target - coordY) < 0)
+	    coordY--;
+	else
+	    coordY++;
+	return coordY;
+
+    }
+
+    public void setInFinallCoordY() {
+	coordY = Config.getInstance().getCanvasHeightPx() - ((posY + 1) * Config.getInstance().getSquareHeightPx());
     }
 
     public boolean isInPosition(int posx, int posy) {
