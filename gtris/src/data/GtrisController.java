@@ -9,52 +9,60 @@ import canvas.Color;
 import canvas.Square;
 
 public class GtrisController {
-    private GtrisModel model;
+	private GtrisModel model;
 
-    public GtrisController(final JFrame window) {
+	public GtrisController(final JFrame window) {
 
-	model = new GtrisModel();
-	for (int y = 0; y < 5; y++)
-	    for (int x = 0; x < Config.getInstance().getCanvasHeight(); x++) {
-		if (getRandomBoolean())
-		    continue;
-		Square square = new Square();
-		square.setColor(getRandomColor());
-		square.setPosX(x);
-		model.add(square);
-		while (model.dropSquare(square))
-		    ;
-	    }
-	model.add(new Pair());
+		model = new GtrisModel();
+		for (int y = 0; y < 5; y++)
+			for (int x = 0; x < Config.getInstance().getCanvasHeight(); x++) {
+				if (getRandomBoolean())
+					continue;
+				Square square = new Square();
+				square.setColor(getRandomColor());
+				square.setPosX(x);
+				model.add(square);
+				while (model.dropSquare(square))
+					;
+			}
 
-	new DecreasingThread(500, 0) {
+		new DecreasingThread(5000, -100) {
 
-	    @Override
-	    public void run() {
-		model.fallSquares();
-		window.repaint();
+			@Override
+			public void run() {
+				model.add(new Pair());
+				
+			}
+		};
 
-	    }
-	};
+		new DecreasingThread(500, -1) {
 
-    }
+			@Override
+			public void run() {
+				model.fallSquares();
+				window.repaint();
 
-    public GtrisModel getModel() {
-	return model;
-    }
+			}
+		};
 
-    public static final int getRandom(int bottom, int top) {
-	Random rnd = new Random(System.nanoTime());
-	int value = rnd.nextInt(top);
+	}
 
-	return value;
-    }
+	public GtrisModel getModel() {
+		return model;
+	}
 
-    public static final Color getRandomColor() {
-	return Color.valueOf((getRandom(0, 500) / 100));
-    }
+	public static final int getRandom(int bottom, int top) {
+		Random rnd = new Random(System.nanoTime());
+		int value = rnd.nextInt(top);
 
-    public static final boolean getRandomBoolean() {
-	return getRandom(0, 500) > 250;
-    }
+		return value;
+	}
+
+	public static final Color getRandomColor() {
+		return Color.valueOf((getRandom(0, 500) / 100));
+	}
+
+	public static final boolean getRandomBoolean() {
+		return getRandom(0, 500) > 250;
+	}
 }
