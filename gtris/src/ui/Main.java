@@ -6,11 +6,14 @@ import javax.swing.JFrame;
 
 import canvas.GtrisCanvas;
 import data.GtrisController;
+import data.GtrisModel;
 
 public class Main {
     public static void main(String[] args) {
 	JFrame window = new JFrame("Gtris");
-	GtrisCanvas canvas = new GtrisCanvas(new GtrisController(window));
+	GtrisModel model = new GtrisModel();
+	GtrisCanvas canvas = new GtrisCanvas(model);
+	GtrisController controller = new GtrisController(model, window);
 	window.add(canvas);
 	canvas.setDoubleBuffered(true);
 	window.setBackground(new Color(120, 120, 120));

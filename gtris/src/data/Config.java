@@ -1,8 +1,17 @@
 package data;
 
+/**
+ * Singleton configuration of the game
+ * 
+ * @author dvelazquez
+ * @since 11/04/2013
+ */
 public final class Config {
     private int squareHeightPx = 32;
     private int squareWidthPx = 32;
+    /**
+     * this data is in game units, no pixels
+     */
     private int canvasHeight = 20;
     private int canvasWidth = 8;
     private long drawTime = 120000;

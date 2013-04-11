@@ -4,7 +4,13 @@ import java.io.Serializable;
 
 import data.Config;
 
-public class Square implements Serializable,Comparable<Square> {
+/**
+ * Square object, is an square in the game
+ * 
+ * @author dvelazquez
+ * @since 11/04/2013
+ */
+public class Square implements Serializable, Comparable<Square> {
 
     private static final long serialVersionUID = -2097311988269411366L;
 
@@ -91,13 +97,13 @@ public class Square implements Serializable,Comparable<Square> {
 	this.falling = falling;
     }
 
-	@Override
-	public int compareTo(Square o) {
-		if(equals(o))
-		return 0;
-		if(hashCode()>o.hashCode())
-			return 1;
-		return -1;
-	}
+    @Override
+    public int compareTo(Square o) {
+	if (equals(o))
+	    return 0;
+	if (hashCode() > o.hashCode())
+	    return 1;
+	return -1;
+    }
 
 }
