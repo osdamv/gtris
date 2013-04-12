@@ -19,61 +19,26 @@ import data.Square;
  */
 public class GtrisController {
     private GtrisModel model;
+    private GtrisCanvas canvas;
+    private Config config=Config.getInstance();
 
     /**
-     * Constructor, initialize the model and threads(Timers)
+     * Constructor, create all the game logic 
      * 
      * @param model
      *            to be controlled
      * @param canvas
      *            to be repainted
      */
-    public GtrisController(GtrisModel data, final GtrisCanvas canvas) {
-
-	this.model = data;
-	for (int y = 0; y < 8; y++)
-	    for (int x = 0; x < Config.getInstance().getCanvasHeight(); x++) {
-		if (getRandomBoolean())
-		    continue;
-		Square square = new Square();
-		square.setColor(getRandomColor());
-		square.setPosX(x);
-		model.add(square);
-		while (model.dropSquare(square))
-		    ;
-		square.setInFinallCoordY();
-	    }
-	Cursor cursor = new Cursor();
-	model.add(cursor);
-	while (model.dropSquare(cursor))
-	    ;
-	cursor.setInFinallCoordY();
-	// add a new pair every 2 seconds, decrease the speed of fall every 2
-	// minutes 100 ms, with a minimum of 1 second
-	new NonFixedTimer(2000, -100, 120000, 1000) {
-
-	    @Override
-	    public void run() {
-		GtrisController.this.model.add(new Pair());
-
-	    }
-	};
-	// drop elements
-	new NonFixedTimer(450, 0, 0, 0) {
-	    @Override
-	    public void run() {
-		GtrisController.this.model.fallSquares();
-		GtrisController.this.model.removeShapes();
-	    }
-	};
-	// repaint thread
-	new NonFixedTimer(25, 0, 0, 25) {
-
-	    @Override
-	    public void run() {
-		canvas.repaint();
-	    }
-	};
+    public GtrisController(GtrisModel model, final GtrisCanvas canvas) {
+	this.model = model;
+	this.canvas=canvas;
+	initModel();
+	initThreads();
+	initEvents();
+    }
+    
+    private void initEvents() {
 	canvas.addKeyListener(new KeyListener() {
 
 	    @Override
@@ -116,7 +81,56 @@ public class GtrisController {
 
 	    }
 	});
+	
+    }
 
+    private void initThreads() {
+	// add a new pair every 2 seconds, decrease the speed of fall every 2
+		// minutes 100 ms, with a minimum of 1 second
+		new NonFixedTimer(2000, -100, 120000, 1000) {
+
+		    @Override
+		    public void run() {
+			model.add(new Pair());
+			model.performDelete();
+		    }
+		};
+		// drop elements
+		new NonFixedTimer(400, -25, 6000, 100) {
+		    @Override
+		    public void run() {
+			model.fallSquares();
+			model.markDeletable();
+		    }
+		};
+		// repaint thread
+		new NonFixedTimer(25, 0, 0, 25) {
+
+		    @Override
+		    public void run() {
+			canvas.repaint();
+		    }
+		};
+    }
+
+    private void initModel(){
+	for (int y = 0; y < config.getInitialFill(); y++)
+	    for (int x = 0; x < config.getCanvasHeight(); x++) {
+		if (getRandomBoolean())
+		    continue;
+		Square square = new Square();
+		square.setColor(getRandomColor());
+		square.setPosX(x);
+		model.add(square);
+		while (model.dropSquare(square))
+		    ;
+		square.setInFinallCoordY();
+	    }
+	Cursor cursor = new Cursor();
+	model.add(cursor);
+	while (model.dropSquare(cursor))
+	    ;
+	cursor.setInFinallCoordY();
     }
 
     /**

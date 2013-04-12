@@ -2,14 +2,14 @@ package canvas;
 
 import java.awt.Image;
 
-import data.Color;
 import data.Config;
+import data.Images;
 import data.Square;
 
 public class Cursor extends Square {
 
     private static final long serialVersionUID = 6830138528385728405L;
-    private static final Image img = Color.initImage("cursor.png");
+    private static final Image img = Images.getImage("cursor.png");
     private Config config = Config.getInstance();
     private Square selectedSquare;
 

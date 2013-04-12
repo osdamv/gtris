@@ -23,6 +23,7 @@ public class Square implements Serializable, Comparable<Square> {
     private int coordY = 0;
     private int coordX = 0;
     private boolean swaping=false;
+    private boolean deletable=false;
     
     public Square() {
 	sequence++;
@@ -49,6 +50,7 @@ public class Square implements Serializable, Comparable<Square> {
 
     public void setPosY(int posY) {
 	this.posY = posY;
+	falling=true;
     }
 
     public Color getColor() {
@@ -149,6 +151,14 @@ public class Square implements Serializable, Comparable<Square> {
     }
     public void setSwaping(boolean swaping) {
 	this.swaping = swaping;
+    }
+
+    public boolean isDeletable() {
+	return deletable;
+    }
+
+    public void setDeletable(boolean deletable) {
+	this.deletable = deletable;
     }
 
 }

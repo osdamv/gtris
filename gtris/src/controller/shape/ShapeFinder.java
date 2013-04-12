@@ -11,7 +11,7 @@ public class ShapeFinder {
     private HashSet<Square> hashFound = new HashSet<Square>(4);
     private Set<Square> data;
 
-    public ShapeFinder(Square startSquare, Set<Square> data, Tuple<Integer, Integer> [] figureInc) {
+    public ShapeFinder(Square startSquare, Set<Square> data, Tuple<Integer, Integer>[] figureInc) {
 	this.data = data;
 	hashFound.add(startSquare);
 	Square buff = startSquare;
@@ -25,7 +25,8 @@ public class ShapeFinder {
     }
 
     private boolean isInValid(Square buff, Square startSquare) {
-	return buff == null || buff.getColor() != startSquare.getColor() || buff.isFalling() || buff.isSwaping();
+	return buff == null || buff.getColor() != startSquare.getColor() || buff.isFalling() || buff.isSwaping()
+		|| startSquare.isFalling() || buff.isFalling() || buff.isDeletable() || startSquare.isDeletable();
     }
 
     public HashSet<Square> getFound() {

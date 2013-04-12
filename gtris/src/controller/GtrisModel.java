@@ -3,6 +3,7 @@ package controller;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
@@ -22,23 +23,28 @@ import data.Tuple;
 public class GtrisModel implements Serializable {
 
 	private static final long serialVersionUID = -5847873452769942837L;
-	public Set<Square> data = new ConcurrentSkipListSet<Square>();
+	public Set<Square> squares = new ConcurrentSkipListSet<Square>();
 	private Cursor cursor= new Cursor();
+	private long points=0;
+	private long initTime=System.currentTimeMillis();
 
+	
+	
+	
 	/**
-	 * Retrive the data
+	 * Retrieve the data
 	 * 
 	 * @return a Set of Data, the order doesn't matter in this case
 	 */
-	public Set<Square> getData() {
-		return data;
+	public Set<Square> getSquares() {
+		return squares;
 	}
 
 	/**
 	 * Try to fall al squares
 	 */
 	public void fallSquares() {
-		for (Square s : data) {
+		for (Square s : squares) {
 			dropSquare(s);
 		}
 	}
@@ -52,7 +58,7 @@ public class GtrisModel implements Serializable {
 	 */
 	public boolean dropSquare(Square square) {
 		Square nextSquare = findNextSquare(square.getPosX(),
-				square.getPosY() - 1, data);
+				square.getPosY() - 1, squares);
 		if (square.getPosY() == 0 || nextSquare != null) 
  			return false;		
  		square.decreasePosY();
@@ -76,7 +82,7 @@ public class GtrisModel implements Serializable {
 		return null;
 	}
 	private static final HashMap<String, Tuple<Integer, Integer>[]> shapes=new HashMap<String, Tuple<Integer, Integer>[]>();
-	  
+	private static final HashMap<String,Integer> pointsTable=new HashMap<String,Integer>();
 	static  {
 		Tuple<Integer, Integer>[] cube=new Tuple[3];
 		Tuple<Integer, Integer>[] lineh=new Tuple[3];
@@ -197,9 +203,9 @@ public class GtrisModel implements Serializable {
 		 *  ## 
 		 *   #
 		 */
-		blockzh[0] = new Tuple<Integer, Integer>(0, -1);
-		blockzh[1] = new Tuple<Integer, Integer>(1, 0);
-		blockzh[2] = new Tuple<Integer, Integer>(-1, 0);
+		blockzh[0] = new Tuple<Integer, Integer>(0, 1);
+		blockzh[1] = new Tuple<Integer, Integer>(-1, 0);
+		blockzh[2] = new Tuple<Integer, Integer>(0, 1);
 		/**
 		 *  ## 
 		 * ##
@@ -223,22 +229,48 @@ public class GtrisModel implements Serializable {
 		shapes.put("blockzi", blockzi);
 		shapes.put("blockzih", blockzih);
 		
+		pointsTable.put("cube", 10);
+		pointsTable.put("lineh", 8);
+		pointsTable.put("linev", 7);
+		pointsTable.put("blockb", 9);
+		pointsTable.put("blockb90", 10);
+		pointsTable.put("blockb180", 11);
+		pointsTable.put("blockb240", 12);
+		pointsTable.put("blockd", 6);
+		pointsTable.put("blockd90", 7);
+		pointsTable.put("blockd180", 8);
+		pointsTable.put("blockd240", 10);
+		pointsTable.put("blockz", 15);
+		pointsTable.put("blockzh", 16);
+		pointsTable.put("blockzi", 15);
+		pointsTable.put("blockzih", 16);
+		
 	}
 
-	public void removeShapes() {
-		HashSet<Square> toBeErased = new HashSet<Square>();
-				
-		for (Square s : data) {
+	public synchronized void markDeletable() {
+		HashSet<Square> toBeErased = new HashSet<Square>();				
+		for (Square s : squares) {
 			for(String tupleKey: shapes.keySet()){				
-				ShapeFinder shape = new ShapeFinder(s, data, shapes.get(tupleKey));
-				
+				ShapeFinder shape = new ShapeFinder(s, squares, shapes.get(tupleKey));				
 				toBeErased.addAll(shape.getFound());
-				if(!toBeErased.isEmpty())break;
+				if(!toBeErased.isEmpty()){
+				    for(Square e:toBeErased){
+					e.setDeletable(true);
+				    }
+				    calculatePunctuation(tupleKey);
+ 				    break;
+				}
 			} 
 			if(!toBeErased.isEmpty())break;
 		}
-
-		data.removeAll(toBeErased);
+		System.err.println(points);
+		
+	}
+	private void calculatePunctuation(String shade){
+	    points+=pointsTable.get(shade);
+	    long diffTime = (System.currentTimeMillis()-initTime)/10000;
+	    points+=diffTime*20;
+	    initTime=System.currentTimeMillis();
 	}
 
 	/**
@@ -249,7 +281,7 @@ public class GtrisModel implements Serializable {
 	 */
 	public synchronized void add(Square square) {
 
-		data.add(square);
+		squares.add(square);
 	}
 	public synchronized void add(Cursor cursor) {
 		this.setCursor(cursor);
@@ -275,7 +307,7 @@ public class GtrisModel implements Serializable {
 	}
 
 	public synchronized void swapSquare() {
-	    Square currentSquare=findNextSquare(cursor.getPosX(), cursor.getPosY(),data);	    
+	    Square currentSquare=findNextSquare(cursor.getPosX(), cursor.getPosY(),squares);	    
 		if(cursor.isValidSwap() && currentSquare!=null ){
 		    Square selected = cursor.getSelectedSquare();		    
 		    int sx = selected.getPosX();
@@ -294,5 +326,19 @@ public class GtrisModel implements Serializable {
 		}	    
 	}
 
+	public synchronized void performDelete() {
+	    Iterator<Square> itera = squares.iterator();
+	    while(itera.hasNext()){
+		if(itera.next().isDeletable())
+		    itera.remove();
+	    }
+	    
+	}
+
+	public long getPoints() {
+	    return points;
+	}
+
+ 
 }
 

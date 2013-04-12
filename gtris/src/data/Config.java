@@ -12,9 +12,10 @@ public final class Config {
     /**
      * this data is in game units, no pixels
      */
-    private int canvasHeight = 20;
-    private int canvasWidth = 8;
+    private int canvasHeight = 22;
+    private int canvasWidth = 22;
     private long drawTime = 120000;
+    private int initialFill = 8;
 
     private static final Config config = new Config();
 
@@ -72,4 +73,13 @@ public final class Config {
     public void setDrawTime(long drawTime) {
 	this.drawTime = drawTime;
     }
+
+    public int getInitialFill() {
+	return initialFill;
+    }
+
+    public void setInitialFill(int initialFill) {
+	this.initialFill = initialFill;
+    }
+
 }

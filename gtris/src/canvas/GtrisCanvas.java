@@ -1,13 +1,14 @@
 package canvas;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 
 import controller.GtrisModel;
 import data.Config;
+import data.Images;
 import data.Square;
 
 /**
@@ -16,7 +17,7 @@ import data.Square;
  * @author dvelazquez
  * @since 11/04/2013
  */
-public class GtrisCanvas extends JPanel {
+public class GtrisCanvas extends JComponent {
     private static final long serialVersionUID = -1503661829765315435L;
 
     private GtrisModel model;
@@ -31,14 +32,13 @@ public class GtrisCanvas extends JPanel {
 	this.model = model;
 	Dimension dimension = new Dimension(Config.getInstance().getCanvasWidthPx(), Config.getInstance()
 		.getCanvasHeightPx());
-	setBackground(new Color(120, 120, 120));
 	setPreferredSize(dimension);
 	setMaximumSize(dimension);
 	setIgnoreRepaint(true);
 	setFocusable(true);
 	setRequestFocusEnabled(true);
     }
-
+    private static final Image img=Images.getImage("delete.png");
     /**
      * draw of the squares represented in the model
      */
@@ -46,12 +46,15 @@ public class GtrisCanvas extends JPanel {
     protected void paintComponent(Graphics g) {
 	super.paintComponent(g);
 	Cursor cursor = model.getCursor();
-	for (Square s : model.getData()) {
+	for (Square s : model.getSquares()) {
 	    if (!s.isSwaping())
 		s.setInFinallCoordX();
-	    g.drawImage(s.getImage(), s.getCoordX(), s.getCoordY(), null);
+	    g.drawImage(s.getImage(), s.getCoordX(), s.getCoordY(), this);
+	    if(s.isDeletable()){
+		g.drawImage(img, s.getCoordX(), s.getCoordY(), this);
+	    }
 	}
-	g.drawImage(cursor.getImage(), cursor.getCoordX(), cursor.getCoordY(), null);
+	g.drawImage(cursor.getImage(), cursor.getCoordX(), cursor.getCoordY(), this);
 
     }
 }
