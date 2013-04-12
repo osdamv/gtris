@@ -2,9 +2,8 @@ package controller;
 
 import java.util.Random;
 
-import javax.swing.JFrame;
-
 import canvas.Color;
+import canvas.GtrisCanvas;
 import canvas.Square;
 import controller.shape.Pair;
 import data.Config;
@@ -24,10 +23,10 @@ public class GtrisController {
      * 
      * @param model
      *            to be controlled
-     * @param window
+     * @param canvas
      *            to be repainted
      */
-    public GtrisController(GtrisModel model, final JFrame window) {
+    public GtrisController(GtrisModel model, final GtrisCanvas canvas) {
 
 	this.model = model;
 	for (int y = 0; y < 8; y++)
@@ -65,7 +64,7 @@ public class GtrisController {
 
 	    @Override
 	    public void run() {
-		window.repaint();
+		canvas.repaint();
 
 	    }
 	};

@@ -1,5 +1,6 @@
 package canvas;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -29,6 +30,7 @@ public class GtrisCanvas extends JPanel {
 	this.model = model;
 	Dimension dimension = new Dimension(Config.getInstance().getCanvasWidthPx(), Config.getInstance()
 		.getCanvasHeightPx());
+	setBackground(new Color(120, 120, 120));
 	setPreferredSize(dimension);
 	setMaximumSize(dimension);
     }
@@ -37,11 +39,11 @@ public class GtrisCanvas extends JPanel {
      * draw of the squares represented in the model
      */
     @Override
-    public void paintComponent(Graphics g) {
-
-	for (Square s : model.getData()) {
-	    g.drawImage(s.getColor().getImage(), s.getCoordX(), s.getCoordY(), this);
+    protected void paintComponent(Graphics g) {
+ 	super.paintComponent(g);
+	for (Square s : model.getData()) {	    
+	    g.drawImage(s.getColor().getImage(), s.getCoordX(), s.getCoordY(), null);
 	}
-
+ 
     }
 }

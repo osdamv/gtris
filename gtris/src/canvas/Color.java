@@ -38,19 +38,48 @@ public enum Color {
 	return null;
     }
 
+    private static final Image IMAGEBLUE;
+    private static final Image IMAGEGREEN;
+    private static final Image IMAGEPINK;
+    private static final Image IMAGERED;
+    private static final Image IMAGEYELLOW;
+    static {
+	IMAGEBLUE = initImage("blue.png");
+	IMAGEGREEN = initImage("green.png");
+	IMAGEPINK = initImage("pink.png");
+	IMAGERED = initImage("red.png");
+	IMAGEYELLOW = initImage("yellow.png");
+    }
+
+    private static final Image initImage(String name) {
+	URL url = ClassLoader.getSystemClassLoader().getResource(name);
+	try {
+	    return ImageIO.read(url);
+	} catch (IOException e) {
+	    e.printStackTrace();
+	    return null;
+	}
+    }
+
     /**
      * Get representing image of the current color
      * 
      * @return an Image
      */
     public Image getImage() {
-	URL path = ClassLoader.getSystemClassLoader().getResource(this.name().toLowerCase() + ".png");
-	try {
-	    return ImageIO.read(path);
-	} catch (IOException e) {
-	    e.printStackTrace();
-	    return null;
+	switch (this) {
+	case BLUE:
+	    return IMAGEBLUE;
+	case GREEN:
+	    return IMAGEGREEN;
+	case PINK:
+	    return IMAGEPINK;
+	case RED:
+	    return IMAGERED;
+	case YELLOW:
+	    return IMAGEYELLOW;
 	}
+	return null;
     }
 
 }
