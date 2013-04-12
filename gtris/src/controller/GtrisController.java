@@ -63,7 +63,7 @@ public class GtrisController {
 	    @Override
 	    public void run() {
 		GtrisController.this.model.fallSquares();
-		GtrisController.this.model.searchCubes();
+		GtrisController.this.model.removeShapes();
 	    }
 	};
 	// repaint thread
@@ -108,6 +108,9 @@ public class GtrisController {
 		    c.down();
 		    break;
 
+		case 32:
+		    model.swapSquare();
+		    break;
 		default:
 		    break;
 		}

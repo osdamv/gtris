@@ -225,7 +225,7 @@ public class GtrisModel implements Serializable {
 		
 	}
 
-	public void searchCubes() {
+	public void removeShapes() {
 		HashSet<Square> toBeErased = new HashSet<Square>();
 				
 		for (Square s : data) {
@@ -264,7 +264,6 @@ public class GtrisModel implements Serializable {
 		add(pair.getRight());
 		dropSquare(pair.getLeft());
 		dropSquare(pair.getRight());
-
 	}
 
 	public Cursor getCursor() {
@@ -275,4 +274,23 @@ public class GtrisModel implements Serializable {
 	    this.cursor = cursor;
 	}
 
+	public void swapSquare() {
+	    Square currentSquare=findNextSquare(cursor.getPosX(), cursor.getPosY(),data);	    
+		if(cursor.isValidSwap()){
+		    Square selected = cursor.getSelectedSquare();		    
+		    int sx = selected.getPosX();
+		    int sy = selected.getPosY();
+		    selected.setPosX(currentSquare.getPosX());
+		    selected.setPosY(currentSquare.getPosY());
+		    currentSquare.setPosX(sx);		    
+		    currentSquare.setPosY(sy);
+		    selected.setSwaping(true);
+		    currentSquare.setSwaping(true);
+		    cursor.setSelectedSquare(null);
+		}else{
+		    cursor.setSelectedSquare(currentSquare);
+		}	    
+	}
+
 }
+

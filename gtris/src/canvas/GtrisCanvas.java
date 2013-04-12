@@ -47,7 +47,8 @@ public class GtrisCanvas extends JPanel {
 	super.paintComponent(g);
 	Cursor cursor = model.getCursor();
 	for (Square s : model.getData()) {
-	    s.setInFinallCoordX();
+	    if (!s.isSwaping())
+		s.setInFinallCoordX();
 	    g.drawImage(s.getImage(), s.getCoordX(), s.getCoordY(), null);
 	}
 	g.drawImage(cursor.getImage(), cursor.getCoordX(), cursor.getCoordY(), null);

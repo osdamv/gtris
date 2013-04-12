@@ -21,6 +21,7 @@ public class Square implements Serializable, Comparable<Square> {
     private boolean falling = false;
     private int coordY = 0;
     private int coordX = 0;
+    private boolean swaping=false;
     
     
      
@@ -56,9 +57,9 @@ public class Square implements Serializable, Comparable<Square> {
 
     public int getCoordX() {
 	int target = posX * Config.getInstance().getSquareWidthPx();
-	falling=true;
+	swaping=true;
 	if ((target - coordX) == 0)
-	    ;
+	    swaping=false;
 	else if ((target - coordX) < 0)
 	    coordX-=pixelMovment();
 	else
@@ -141,6 +142,12 @@ public class Square implements Serializable, Comparable<Square> {
 
     public Image getImage() {
 	return color.getImage();
+    }
+    public boolean isSwaping() {
+	return swaping;
+    }
+    public void setSwaping(boolean swaping) {
+	this.swaping = swaping;
     }
 
 }

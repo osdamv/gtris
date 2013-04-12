@@ -11,7 +11,7 @@ public class Cursor extends Square {
     private static final long serialVersionUID = 6830138528385728405L;
     private static final Image img = Color.initImage("cursor.png");
     private Config config = Config.getInstance();
-
+    private Square selectedSquare;
     public Cursor() {
 	posY = 0;
     }
@@ -45,6 +45,23 @@ public class Cursor extends Square {
     @Override
     protected int pixelMovment() {
 	return 8;
+    }
+
+    public Square getSelectedSquare() {
+	return selectedSquare;
+    }
+
+    public void setSelectedSquare(Square selectedSquare) {
+	this.selectedSquare = selectedSquare;
+    }
+
+    public boolean isValidSwap() {
+	if(selectedSquare==null)
+	    return false;
+	boolean gapX = Math.abs(posX-selectedSquare.getPosX())==1?true:false;
+	boolean gapY = Math.abs(posY-selectedSquare.getPosY())==1?true:false;
+	
+	return (gapX && !gapY) || (!gapX && gapY);
     }
 
 }
