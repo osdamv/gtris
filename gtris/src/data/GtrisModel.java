@@ -73,7 +73,7 @@ public class GtrisModel implements Serializable {
 		return null;
 	}
 	private static final HashMap<String, Tuple<Integer, Integer>[]> shapes=new HashMap<String, Tuple<Integer, Integer>[]>();
-	 
+	  
 	static  {
 		Tuple<Integer, Integer>[] cube=new Tuple[3];
 		Tuple<Integer, Integer>[] lineh=new Tuple[3];

@@ -58,9 +58,9 @@ public class Square implements Serializable, Comparable<Square> {
 	if ((target - coordY) == 0)
 	    falling=false;
 	else if ((target - coordY) < 0)
-	    coordY-=8;
+	    coordY-=2;
 	else
-	    coordY+=8;
+	    coordY+=2;
 	return coordY;
 
     }

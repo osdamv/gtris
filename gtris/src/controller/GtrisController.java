@@ -53,7 +53,7 @@ public class GtrisController {
 	    }
 	};
 	// drop elements
-	new NonFixedTimer(1, 0, 0, 0) {
+	new NonFixedTimer(500, 0, 0, 0) {
 	    @Override
 	    public void run() {
 		GtrisController.this.model.fallSquares();
@@ -69,6 +69,7 @@ public class GtrisController {
 
 	    }
 	};
+	 
 
     }
 

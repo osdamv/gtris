@@ -1,7 +1,9 @@
 package controller;
 
-import java.util.Timer;
-import java.util.TimerTask;
+ import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
 
 /**
  * Custom timer class to work with Timers(Threads)
@@ -9,12 +11,13 @@ import java.util.TimerTask;
  * @author dvelazquez
  * @since 11/04/2013
  */
-public abstract class NonFixedTimer extends Timer {
+public abstract class NonFixedTimer  {
     private long delay;
     private long delta;
     private long initTime = System.currentTimeMillis();
     private long timeToApllyDelay;
     private long minimumDelay;
+    private Timer timer;
 
     /**
      * Constructor, set up a timer with his parameters
@@ -31,12 +34,15 @@ public abstract class NonFixedTimer extends Timer {
      *            time of delay
      */
     public NonFixedTimer(long delay, long delta, long timeToApllyDelay, long minimumDelay) {
-	this.delay = delay;
+ 	this.delay = delay;
 	this.minimumDelay = minimumDelay;
 	this.delta = delta;
 	this.timeToApllyDelay = timeToApllyDelay;
-	schedule(new Task(), delay);
-    }
+	timer= new Timer((int) delay, new Task());
+	timer.setRepeats(true);
+	timer.start();
+	
+     }
 
     /**
      * Custom TimerTask in order to schedule timer with non fixed delay
@@ -44,14 +50,16 @@ public abstract class NonFixedTimer extends Timer {
      * @author dvelazquez
      * @since 11/04/2013
      */
-    class Task extends TimerTask {
-
+    class Task implements ActionListener {	
 	@Override
-	public void run() {
-	    if ((delay + delta) > minimumDelay && isDrecreaseTime())
+	public void actionPerformed(ActionEvent e) {
+	    if ((delay + delta) > minimumDelay && isDrecreaseTime()){
 		delay += delta;
+		timer.setDelay((int) delay);
+	    }
 	    NonFixedTimer.this.run();
-	    schedule(new Task(), delay);
+	    
+
 	}
 
     }
