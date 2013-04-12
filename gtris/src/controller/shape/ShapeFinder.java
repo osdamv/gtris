@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import controller.GtrisModel;
-
 import data.Square;
 import data.Tuple;
 
@@ -26,7 +25,7 @@ public class ShapeFinder {
     }
 
     private boolean isInValid(Square buff, Square startSquare) {
-	return buff == null || buff.getColor() != startSquare.getColor() || buff.isFalling();
+	return buff == null || buff.getColor() != startSquare.getColor() || buff.isFalling() || buff.isSwaping();
     }
 
     public HashSet<Square> getFound() {

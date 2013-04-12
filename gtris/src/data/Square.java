@@ -14,7 +14,8 @@ import java.io.Serializable;
 public class Square implements Serializable, Comparable<Square> {
 
     private static final long serialVersionUID = -2097311988269411366L;
-
+    private static int sequence=0;
+    private int id;
     private Color color = null;
     protected int posX = 0;
     protected int posY = Config.getInstance().getCanvasHeight() - 1;
@@ -23,7 +24,10 @@ public class Square implements Serializable, Comparable<Square> {
     private int coordX = 0;
     private boolean swaping=false;
     
-    
+    public Square() {
+	sequence++;
+	id=sequence;
+    }
      
     public int getPosX() {
 	return posX;
@@ -97,8 +101,7 @@ public class Square implements Serializable, Comparable<Square> {
     public int hashCode() {
 	final int prime = 31;
 	int result = 1;
-	result = prime * result + posX;
-	result = prime * result + posY;
+	result = prime * result + id;
 	return result;
     }
 
@@ -111,9 +114,7 @@ public class Square implements Serializable, Comparable<Square> {
 	if (getClass() != obj.getClass())
 	    return false;
 	Square other = (Square) obj;
-	if (posX != other.posX)
-	    return false;
-	if (posY != other.posY)
+	if (id != other.id)
 	    return false;
 	return true;
     }

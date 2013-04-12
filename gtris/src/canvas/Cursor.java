@@ -12,6 +12,7 @@ public class Cursor extends Square {
     private static final Image img = Color.initImage("cursor.png");
     private Config config = Config.getInstance();
     private Square selectedSquare;
+
     public Cursor() {
 	posY = 0;
     }
@@ -21,25 +22,25 @@ public class Cursor extends Square {
     }
 
     public void up() {
-	if (posY < config.getCanvasHeight()-1)
+	if (posY < config.getCanvasHeight() - 1)
 	    posY++;
     }
 
     public void left() {
-	if (posX >0 )
+	if (posX > 0)
 	    posX--;
     }
 
     public void right() {
-	if (posX < config.getCanvasWidth()-1)
+	if (posX < config.getCanvasWidth() - 1)
 	    posX++;
-	
+
     }
 
     public void down() {
 	if (posY > 0)
 	    posY--;
-	
+
     }
 
     @Override
@@ -56,11 +57,11 @@ public class Cursor extends Square {
     }
 
     public boolean isValidSwap() {
-	if(selectedSquare==null)
+	if (selectedSquare == null || selectedSquare.isFalling() || selectedSquare.isSwaping())
 	    return false;
-	boolean gapX = Math.abs(posX-selectedSquare.getPosX())==1?true:false;
-	boolean gapY = Math.abs(posY-selectedSquare.getPosY())==1?true:false;
-	
+	boolean gapX = Math.abs(posX - selectedSquare.getPosX()) == 1 ? true : false;
+	boolean gapY = Math.abs(posY - selectedSquare.getPosY()) == 1 ? true : false;
+
 	return (gapX && !gapY) || (!gapX && gapY);
     }
 

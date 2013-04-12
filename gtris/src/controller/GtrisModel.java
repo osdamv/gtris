@@ -274,9 +274,9 @@ public class GtrisModel implements Serializable {
 	    this.cursor = cursor;
 	}
 
-	public void swapSquare() {
+	public synchronized void swapSquare() {
 	    Square currentSquare=findNextSquare(cursor.getPosX(), cursor.getPosY(),data);	    
-		if(cursor.isValidSwap()){
+		if(cursor.isValidSwap() && currentSquare!=null ){
 		    Square selected = cursor.getSelectedSquare();		    
 		    int sx = selected.getPosX();
 		    int sy = selected.getPosY();
@@ -287,6 +287,8 @@ public class GtrisModel implements Serializable {
 		    selected.setSwaping(true);
 		    currentSquare.setSwaping(true);
 		    cursor.setSelectedSquare(null);
+		    add(currentSquare);
+		    add(selected);
 		}else{
 		    cursor.setSelectedSquare(currentSquare);
 		}	    

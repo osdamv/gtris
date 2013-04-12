@@ -59,7 +59,7 @@ public class GtrisController {
 	    }
 	};
 	// drop elements
-	new NonFixedTimer(500, 0, 0, 0) {
+	new NonFixedTimer(450, 0, 0, 0) {
 	    @Override
 	    public void run() {
 		GtrisController.this.model.fallSquares();
@@ -67,7 +67,7 @@ public class GtrisController {
 	    }
 	};
 	// repaint thread
-	new NonFixedTimer(31, 0, 0, 31) {
+	new NonFixedTimer(25, 0, 0, 25) {
 
 	    @Override
 	    public void run() {
@@ -89,7 +89,6 @@ public class GtrisController {
 	    @Override
 	    public void keyPressed(KeyEvent e) {
 		Cursor c = model.getCursor();
-		System.err.println(e.getKeyCode());
 		switch (e.getKeyCode()) {
 		// left
 		case 37:
