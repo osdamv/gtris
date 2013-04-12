@@ -54,12 +54,13 @@ public class Square implements Serializable, Comparable<Square> {
 
     public int getCoordY() {
 	int target = Config.getInstance().getCanvasHeightPx() - ((posY + 1) * Config.getInstance().getSquareHeightPx());
+	falling=true;
 	if ((target - coordY) == 0)
-	    ;
+	    falling=false;
 	else if ((target - coordY) < 0)
-	    coordY--;
+	    coordY-=8;
 	else
-	    coordY++;
+	    coordY+=8;
 	return coordY;
 
     }

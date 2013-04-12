@@ -6,17 +6,18 @@ import java.util.Set;
 
 import canvas.Square;
 import data.GtrisModel;
+import data.Tuple;
 
 public class ShapeFinder {
     private HashSet<Square> hashFound = new HashSet<Square>(4);
     private Set<Square> data;
 
-    public ShapeFinder(Square startSquare, Set<Square> data, HashMap<Integer, Integer> figureInc) {
+    public ShapeFinder(Square startSquare, Set<Square> data, Tuple<Integer, Integer> [] figureInc) {
 	this.data = data;
 	hashFound.add(startSquare);
 	Square buff = startSquare;
-	for (int x : figureInc.keySet()) {
-	    buff = findSquare(buff.getPosX() + x, buff.getPosY() + figureInc.get(x));
+	for (Tuple<Integer, Integer> x : figureInc) {
+	    buff = findSquare(buff.getPosX() + x.getX(), buff.getPosY() + x.getY());
 	    if (isInValid(buff, startSquare))
 		break;
 	    hashFound.add(buff);
@@ -25,7 +26,7 @@ public class ShapeFinder {
     }
 
     private boolean isInValid(Square buff, Square startSquare) {
-	return buff == null || buff.getColor() != startSquare.getColor();
+	return buff == null || buff.getColor() != startSquare.getColor() || buff.isFalling();
     }
 
     public HashSet<Square> getFound() {
