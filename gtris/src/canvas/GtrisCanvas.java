@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import controller.GtrisModel;
-
 import data.Config;
 import data.Square;
 
@@ -35,7 +34,7 @@ public class GtrisCanvas extends JPanel {
 	setBackground(new Color(120, 120, 120));
 	setPreferredSize(dimension);
 	setMaximumSize(dimension);
-	setIgnoreRepaint(true);	
+	setIgnoreRepaint(true);
 	setFocusable(true);
 	setRequestFocusEnabled(true);
     }
@@ -45,10 +44,13 @@ public class GtrisCanvas extends JPanel {
      */
     @Override
     protected void paintComponent(Graphics g) {
- 	super.paintComponent(g);
-	for (Square s : model.getData()) {	    
-	    g.drawImage(s.getColor().getImage(), s.getCoordX(), s.getCoordY(), null);
+	super.paintComponent(g);
+	Cursor cursor = model.getCursor();
+	for (Square s : model.getData()) {
+	    s.setInFinallCoordX();
+	    g.drawImage(s.getImage(), s.getCoordX(), s.getCoordY(), null);
 	}
- 
+	g.drawImage(cursor.getImage(), cursor.getCoordX(), cursor.getCoordY(), null);
+
     }
 }

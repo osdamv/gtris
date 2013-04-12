@@ -51,7 +51,7 @@ public enum Color {
 	IMAGEYELLOW = initImage("yellow.png");
     }
 
-    private static final Image initImage(String name) {
+    public static final Image initImage(String name) {
 	URL url = ClassLoader.getSystemClassLoader().getResource(name);
 	try {
 	    return ImageIO.read(url);

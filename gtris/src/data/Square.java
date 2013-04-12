@@ -1,5 +1,6 @@
 package data;
 
+import java.awt.Image;
 import java.io.Serializable;
 
 
@@ -15,15 +16,20 @@ public class Square implements Serializable, Comparable<Square> {
     private static final long serialVersionUID = -2097311988269411366L;
 
     private Color color = null;
-    private int posX = 0;
-    private int posY = Config.getInstance().getCanvasHeight() - 1;
+    protected int posX = 0;
+    protected int posY = Config.getInstance().getCanvasHeight() - 1;
     private boolean falling = false;
     private int coordY = 0;
-
+    private int coordX = 0;
+    
+    
+     
     public int getPosX() {
 	return posX;
     }
-
+    protected int pixelMovment(){
+	return 2;
+    }
     public void setPosX(int posX) {
 	this.posX = posX;
     }
@@ -49,7 +55,17 @@ public class Square implements Serializable, Comparable<Square> {
     }
 
     public int getCoordX() {
-	return posX * Config.getInstance().getSquareWidthPx();
+	int target = posX * Config.getInstance().getSquareWidthPx();
+	falling=true;
+	if ((target - coordX) == 0)
+	    ;
+	else if ((target - coordX) < 0)
+	    coordX-=pixelMovment();
+	else
+	    coordX+=pixelMovment();
+	return coordX;
+	
+	
     }
 
     public int getCoordY() {
@@ -58,15 +74,18 @@ public class Square implements Serializable, Comparable<Square> {
 	if ((target - coordY) == 0)
 	    falling=false;
 	else if ((target - coordY) < 0)
-	    coordY-=2;
+	    coordY-=pixelMovment();
 	else
-	    coordY+=2;
+	    coordY+=pixelMovment();
 	return coordY;
 
     }
 
     public void setInFinallCoordY() {
 	coordY = Config.getInstance().getCanvasHeightPx() - ((posY + 1) * Config.getInstance().getSquareHeightPx());
+    }
+    public void setInFinallCoordX(){
+	coordX=posX * Config.getInstance().getSquareWidthPx();
     }
 
     public boolean isInPosition(int posx, int posy) {
@@ -118,6 +137,10 @@ public class Square implements Serializable, Comparable<Square> {
 	if (hashCode() > o.hashCode())
 	    return 1;
 	return -1;
+    }
+
+    public Image getImage() {
+	return color.getImage();
     }
 
 }

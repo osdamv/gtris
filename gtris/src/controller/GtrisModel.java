@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+import canvas.Cursor;
 import controller.shape.Pair;
 import controller.shape.ShapeFinder;
 import data.Square;
@@ -22,6 +23,7 @@ public class GtrisModel implements Serializable {
 
 	private static final long serialVersionUID = -5847873452769942837L;
 	public Set<Square> data = new ConcurrentSkipListSet<Square>();
+	private Cursor cursor= new Cursor();
 
 	/**
 	 * Retrive the data
@@ -249,7 +251,9 @@ public class GtrisModel implements Serializable {
 
 		data.add(square);
 	}
-
+	public synchronized void add(Cursor cursor) {
+		this.setCursor(cursor);
+	}
 	/**
 	 * add a Pair shade
 	 * 
@@ -261,6 +265,14 @@ public class GtrisModel implements Serializable {
 		dropSquare(pair.getLeft());
 		dropSquare(pair.getRight());
 
+	}
+
+	public Cursor getCursor() {
+	    return cursor;
+	}
+
+	public void setCursor(Cursor cursor) {
+	    this.cursor = cursor;
 	}
 
 }
