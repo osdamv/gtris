@@ -4,10 +4,9 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
-import controller.shape.Pair;
-
 import canvas.Color;
 import canvas.Square;
+import controller.shape.Pair;
 import data.Config;
 import data.GtrisModel;
 
@@ -31,7 +30,7 @@ public class GtrisController {
     public GtrisController(GtrisModel model, final JFrame window) {
 
 	this.model = model;
-	for (int y = 0; y < 5; y++)
+	for (int y = 0; y < 8; y++)
 	    for (int x = 0; x < Config.getInstance().getCanvasHeight(); x++) {
 		if (getRandomBoolean())
 		    continue;

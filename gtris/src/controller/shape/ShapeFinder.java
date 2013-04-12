@@ -1,26 +1,26 @@
 package controller.shape;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 import canvas.Square;
+import data.GtrisModel;
 
-public abstract class ShapeFinder {
+public class ShapeFinder {
     private HashSet<Square> hashFound = new HashSet<Square>(4);
+    private Set<Square> data;
 
-    public ShapeFinder(Square startSquare) {
+    public ShapeFinder(Square startSquare, Set<Square> data, HashMap<Integer, Integer> figureInc) {
+	this.data = data;
 	hashFound.add(startSquare);
-	Square buff = findSecond(startSquare);
-	if (isInValid(buff, startSquare))
-	    return;
-	hashFound.add(buff);
-	buff = findThird(buff);
-	if (isInValid(buff, startSquare))
-	    return;
-	hashFound.add(buff);
-	buff = findFourth(buff);
-	if (isInValid(buff, startSquare))
-	    return;
-	hashFound.add(buff);
+	Square buff = startSquare;
+	for (int x : figureInc.keySet()) {
+	    buff = findSquare(buff.getPosX() + x, buff.getPosY() + figureInc.get(x));
+	    if (isInValid(buff, startSquare))
+		break;
+	    hashFound.add(buff);
+	}
 
     }
 
@@ -35,9 +35,8 @@ public abstract class ShapeFinder {
 	return hashFound;
     }
 
-    protected abstract Square findSecond(Square square);
+    protected Square findSquare(int posx, int posy) {
+	return GtrisModel.findNextSquare(posx, posy, data);
+    }
 
-    protected abstract Square findThird(Square square);
-
-    protected abstract Square findFourth(Square square);
 }

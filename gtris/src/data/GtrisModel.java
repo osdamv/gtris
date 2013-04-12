@@ -1,14 +1,14 @@
 package data;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+import canvas.Square;
 import controller.shape.Pair;
 import controller.shape.ShapeFinder;
-
-import canvas.Square;
 
 /**
  * Data model where is stored the information of the game
@@ -66,7 +66,7 @@ public class GtrisModel implements Serializable {
      *            coordinate in y axis
      * @return an square if found something, null otherwise
      */
-    private Square findNextSquare(int posx, int posy, Set<Square> data) {
+    public static Square findNextSquare(int posx, int posy, Set<Square> data) {
 	for (Square s : data) {
 	    if (s.isInPosition(posx, posy))
 		return s;
@@ -74,34 +74,147 @@ public class GtrisModel implements Serializable {
 	return null;
     }
 
-    class CubeFinder extends ShapeFinder {
-
-	public CubeFinder(Square startSquare) {
-	    super(startSquare);
-	}
-
-	@Override
-	protected Square findSecond(Square square) {
-	    return findNextSquare(square.getPosX() + 1, square.getPosY(), data);
-	}
-
-	@Override
-	protected Square findThird(Square square) {
-	    return findNextSquare(square.getPosX(), square.getPosY() + 1, data);
-	}
-
-	@Override
-	protected Square findFourth(Square square) {
-	    return findNextSquare(square.getPosX() - 1, square.getPosY(), data);
-	}
-
+    private static final HashMap<Integer, Integer> CUBE = new HashMap<Integer, Integer>();
+    private static final HashMap<Integer, Integer> LINEH = new HashMap<Integer, Integer>();
+    private static final HashMap<Integer, Integer> LINEV = new HashMap<Integer, Integer>();
+    private static final HashMap<Integer, Integer> BLOCKB = new HashMap<Integer, Integer>();
+    private static final HashMap<Integer, Integer> BLOCKB90 = new HashMap<Integer, Integer>();
+    private static final HashMap<Integer, Integer> BLOCKB180 = new HashMap<Integer, Integer>();
+    private static final HashMap<Integer, Integer> BLOCKB240 = new HashMap<Integer, Integer>();
+    private static final HashMap<Integer, Integer> BLOCKD = new HashMap<Integer, Integer>();
+    private static final HashMap<Integer, Integer> BLOCKD90 = new HashMap<Integer, Integer>();
+    private static final HashMap<Integer, Integer> BLOCKD180 = new HashMap<Integer, Integer>();
+    private static final HashMap<Integer, Integer> BLOCKD240 = new HashMap<Integer, Integer>();
+    private static final HashMap<Integer, Integer> BLOCKZ = new HashMap<Integer, Integer>();
+    private static final HashMap<Integer, Integer> BLOCKZH = new HashMap<Integer, Integer>();
+    private static final HashMap<Integer, Integer> BLOCKZI = new HashMap<Integer, Integer>();
+    private static final HashMap<Integer, Integer> BLOCKZIH = new HashMap<Integer, Integer>();
+    static {
+	/**
+	 * ## 
+	 * ##
+	 */
+	CUBE.put(1, 0);
+	CUBE.put(0, 1);
+	CUBE.put(-1, 0);
+	/**
+	 * ####
+	 */
+	LINEH.put(1, 0);
+	LINEH.put(1, 0);
+	LINEH.put(1, 0);
+	/**
+	 * #
+	 * # 
+	 * # 
+	 * #
+	 */
+	LINEV.put(0, 1);
+	LINEV.put(0, 1);
+	LINEV.put(0, 1);
+	/**
+	 * # 
+	 * # 
+	 * ##
+	 */
+	BLOCKB.put(-1, 0);
+	BLOCKB.put(0, 1);
+	BLOCKB.put(0, 1);
+	/**
+	 * ### 
+	 * #
+	 */
+	BLOCKB90.put(0, 1);
+	BLOCKB90.put(1, 0);
+	BLOCKB90.put(1, 0);
+	/**
+	 * ## 
+	 *  # 
+	 *  #
+	 */
+	BLOCKB180.put(1, 0);
+	BLOCKB180.put(0, -1);
+	BLOCKB180.put(0, -1);
+	/**
+	 *   #
+	 * ###	 
+	 */
+	BLOCKB240.put(0, -1);
+	BLOCKB240.put(1, 0);
+	BLOCKB240.put(1, 0);
+        /**
+         *  #
+         *  #
+         * ##
+         */
+	BLOCKD.put(1, 0);
+	BLOCKD.put(0, 1);
+	BLOCKD.put(0, 1);
+	/**
+	 * #
+	 * ###
+	 */
+	BLOCKD90.put(1, 0);
+	BLOCKD90.put(0, 1);
+	BLOCKD90.put(-1, 0);
+	/**
+	 * ##
+	 * #
+	 * #
+	 */
+	BLOCKD180.put(1, 0);
+	BLOCKD180.put(0, 1);
+	BLOCKD180.put(-1, 0);
+	/**
+	 * ###
+	 *   #
+	 */
+	BLOCKD240.put(1, 0);
+	BLOCKD240.put(0, 1);
+	BLOCKD240.put(-1, 0);
+	/**
+	 *  #
+	 * ##
+	 * #
+	 */
+	BLOCKZ.put(1, 0);
+	BLOCKZ.put(0, 1);
+	BLOCKZ.put(-1, 0);
+	/**
+	 * ##
+	 *  ##
+	 */
+	BLOCKZI.put(1, 0);
+	BLOCKZI.put(0, 1);
+	BLOCKZI.put(-1, 0);
+	/**
+	 * #
+	 * ##
+	 *  #
+	 */
+	BLOCKZH.put(1, 0);
+	BLOCKZH.put(0, 1);
+	BLOCKZH.put(-1, 0);
+	/**
+	 *  ##
+	 * ##
+	 */
+	BLOCKZIH.put(1, 0);
+	BLOCKZIH.put(0, 1);
+	BLOCKZIH.put(-1, 0);
     }
 
     public void searchCubes() {
 	HashSet<Square> toBeErased = new HashSet<Square>();
 	for (Square s : data) {
-	    CubeFinder c = new CubeFinder(s);
-	    toBeErased.addAll(c.getFound());
+	    HashMap<Integer, Integer> mov = new HashMap<Integer, Integer>();
+	    mov.put(1, 0);
+	    mov.put(0, 1);
+	    mov.put(-1, 0);
+
+	    ShapeFinder shape = new ShapeFinder(s, data, mov);
+	    toBeErased.addAll(shape.getFound());
+
 	}
 
 	data.removeAll(toBeErased);
