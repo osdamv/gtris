@@ -1,13 +1,14 @@
 package controller;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Random;
 
-import canvas.Color;
 import canvas.GtrisCanvas;
-import canvas.Square;
 import controller.shape.Pair;
+import data.Color;
 import data.Config;
-import data.GtrisModel;
+import data.Square;
 
 /**
  * Canvas and model controller
@@ -65,10 +66,26 @@ public class GtrisController {
 	    @Override
 	    public void run() {
 		canvas.repaint();
-
 	    }
 	};
-	 
+	 canvas.addKeyListener(new KeyListener() {
+	    
+	    @Override
+	    public void keyTyped(KeyEvent e) {
+ 		
+	    }
+	    
+	    @Override
+	    public void keyReleased(KeyEvent e) {
+ 		
+	    }
+	    
+	    @Override
+	    public void keyPressed(KeyEvent e) {
+		System.err.println(e.getKeyCode());
+		
+	    }
+	});
 
     }
 

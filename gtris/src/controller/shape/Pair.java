@@ -1,8 +1,8 @@
 package controller.shape;
 
 import controller.GtrisController;
-import canvas.Square;
 import data.Config;
+import data.Square;
 
 public class Pair {
     private Square left;

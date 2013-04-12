@@ -6,8 +6,10 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import controller.GtrisModel;
+
 import data.Config;
-import data.GtrisModel;
+import data.Square;
 
 /**
  * Canvas where the draw is performed
@@ -33,6 +35,9 @@ public class GtrisCanvas extends JPanel {
 	setBackground(new Color(120, 120, 120));
 	setPreferredSize(dimension);
 	setMaximumSize(dimension);
+	setIgnoreRepaint(true);	
+	setFocusable(true);
+	setRequestFocusEnabled(true);
     }
 
     /**

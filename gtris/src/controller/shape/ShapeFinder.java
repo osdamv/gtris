@@ -3,8 +3,9 @@ package controller.shape;
 import java.util.HashSet;
 import java.util.Set;
 
-import canvas.Square;
-import data.GtrisModel;
+import controller.GtrisModel;
+
+import data.Square;
 import data.Tuple;
 
 public class ShapeFinder {

@@ -1,4 +1,4 @@
-package canvas;
+package data;
 
 import java.awt.Image;
 import java.io.IOException;

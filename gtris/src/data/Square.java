@@ -1,8 +1,8 @@
-package canvas;
+package data;
 
 import java.io.Serializable;
 
-import data.Config;
+
 
 /**
  * Square object, is an square in the game

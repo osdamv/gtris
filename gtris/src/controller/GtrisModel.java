@@ -1,4 +1,4 @@
-package data;
+package controller;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -6,9 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import canvas.Square;
 import controller.shape.Pair;
 import controller.shape.ShapeFinder;
+import data.Square;
+import data.Tuple;
 
 /**
  * Data model where is stored the information of the game
