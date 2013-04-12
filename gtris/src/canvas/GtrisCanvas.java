@@ -1,6 +1,8 @@
 package canvas;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -31,12 +33,13 @@ public class GtrisCanvas extends JComponent {
     public GtrisCanvas(GtrisModel model) {
 	this.model = model;
 	Dimension dimension = new Dimension(Config.getInstance().getCanvasWidthPx(), Config.getInstance()
-		.getCanvasHeightPx());
+		.getCanvasHeightPx()+5);
 	setPreferredSize(dimension);
 	setMaximumSize(dimension);
 	setIgnoreRepaint(true);
 	setFocusable(true);
-	setRequestFocusEnabled(true);
+	setRequestFocusEnabled(true);	
+	setLayout(new FlowLayout());
     }
     private static final Image img=Images.getImage("delete.png");
     /**
@@ -55,6 +58,7 @@ public class GtrisCanvas extends JComponent {
 	    }
 	}
 	g.drawImage(cursor.getImage(), cursor.getCoordX(), cursor.getCoordY(), this);
-
+	g.setColor(Color.WHITE);
+	g.drawString("Points: "+model.getPoints(), 10, 10);
     }
 }

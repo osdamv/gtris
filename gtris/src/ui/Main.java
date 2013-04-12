@@ -22,12 +22,9 @@ public class Main {
 	final GtrisCanvas canvas = new GtrisCanvas(model);
 	window.setLayout(new BorderLayout());
 	JLabel background = new JLabel(new ImageIcon(Images.getImage("background.jpg"))){
-
 	    private static final long serialVersionUID = -5778396035204347324L;
-
 	    @Override
-	    public Dimension getPreferredSize() {
-	     
+	    public Dimension getPreferredSize() {	    
 	        return canvas.getPreferredSize();
 	    }
 	};
