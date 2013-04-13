@@ -1,10 +1,12 @@
 package controller;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 import canvas.Cursor;
@@ -24,7 +26,7 @@ import data.Tuple;
 public class GtrisModel implements Serializable {
 
     private static final long serialVersionUID = -5847873452769942837L;
-    public Set<Square> squares = new ConcurrentSkipListSet<Square>();
+    public Set<Square> squares = Collections.newSetFromMap(new ConcurrentHashMap<Square,Boolean>());
     private Cursor cursor = new Cursor();
     private long points = 0;
     private long initTime = System.currentTimeMillis();
