@@ -280,20 +280,20 @@ public class GtrisModel implements Serializable {
 	    dropSquare(pair.getLeft());
 	    dropSquare(pair.getRight());
 	    return true;
-	}else{
-	    for(int x=0;x<Config.getInstance().getCanvasWidth();x+=2){
-		 l= findNextSquare(x, pair.getLeft().getPosY(), squares);
-		 r = findNextSquare(x+1, pair.getRight().getPosY(), squares);
-		 if(l==null && r==null){ 
-		     dropSquare(pair.getLeft().setPosX(x));
-		     dropSquare(pair.getRight().setPosX(x));
-		     return true;
-		 }
-		 
-	    }	    
+	} else {
+	    for (int x = 0; x < Config.getInstance().getCanvasWidth(); x += 2) {
+		l = findNextSquare(x, pair.getLeft().getPosY(), squares);
+		r = findNextSquare(x + 1, pair.getRight().getPosY(), squares);
+		if (l == null && r == null) {
+		    dropSquare(pair.getLeft().setPosX(x));
+		    dropSquare(pair.getRight().setPosX(x+1));
+		    return true;
+		}
+
+	    }
 	    return false;
 	}
-	
+
     }
 
     public Cursor getCursor() {
