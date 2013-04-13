@@ -12,10 +12,10 @@ public final class Config {
     /**
      * this data is in game units, no pixels
      */
-    private int canvasHeight = 22;
-    private int canvasWidth = 22;
+    private int canvasHeight = 8;
+    private int canvasWidth = 8;
     private long drawTime = 120000;
-    private int initialFill = 8;
+    private int initialFill = 9;
 
     private static final Config config = new Config();
 
@@ -60,6 +60,9 @@ public final class Config {
 
     public int getCanvasWidth() {
 	return canvasWidth;
+    }
+    public int getCanvasArea(){
+	return canvasHeight*canvasWidth;
     }
 
     public void setCanvasWidth(int canvasWidth) {

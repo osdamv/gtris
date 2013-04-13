@@ -43,7 +43,9 @@ public abstract class NonFixedTimer  {
 	timer.start();
 	
      }
-
+    public void stop(){
+	timer.stop();
+    }
     /**
      * Custom TimerTask in order to schedule timer with non fixed delay
      * 

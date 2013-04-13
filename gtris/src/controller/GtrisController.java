@@ -20,10 +20,13 @@ import data.Square;
 public class GtrisController {
     private GtrisModel model;
     private GtrisCanvas canvas;
-    private Config config=Config.getInstance();
+    private Config config = Config.getInstance();
+    private NonFixedTimer drawThread;
+    private NonFixedTimer droperThread;
+    private NonFixedTimer fillerThread;
 
     /**
-     * Constructor, create all the game logic 
+     * Constructor, create all the game logic
      * 
      * @param model
      *            to be controlled
@@ -32,12 +35,12 @@ public class GtrisController {
      */
     public GtrisController(GtrisModel model, final GtrisCanvas canvas) {
 	this.model = model;
-	this.canvas=canvas;
+	this.canvas = canvas;
 	initModel();
 	initThreads();
 	initEvents();
     }
-    
+
     private void initEvents() {
 	canvas.addKeyListener(new KeyListener() {
 
@@ -81,39 +84,48 @@ public class GtrisController {
 
 	    }
 	});
-	
+
     }
 
     private void initThreads() {
 	// add a new pair every 2 seconds, decrease the speed of fall every 2
-		// minutes 100 ms, with a minimum of 1 second
-		new NonFixedTimer(2000, -100, 120000, 1000) {
+	// minutes 100 ms, with a minimum of 1 second
+	fillerThread = new NonFixedTimer(2000, -100, 120000, 1000) {
 
-		    @Override
-		    public void run() {
-			model.add(new Pair());
-			model.performDelete();
-		    }
-		};
-		// drop elements
-		new NonFixedTimer(400, -25, 6000, 100) {
-		    @Override
-		    public void run() {
-			model.fallSquares();
-			model.markDeletable();
-		    }
-		};
-		// repaint thread
-		new NonFixedTimer(25, 0, 0, 25) {
+	    @Override
+	    public void run() {
+		if (!model.add(new Pair()))
+		    gameOver();
+		model.performDelete();
+	    }
 
-		    @Override
-		    public void run() {
-			canvas.repaint();
-		    }
-		};
+	    
+	};
+	// drop elements
+	droperThread = new NonFixedTimer(400, -25, 6000, 100) {
+	    @Override
+	    public void run() {
+		model.fallSquares();
+		model.markDeletable();
+	    }
+	};
+	// repaint thread
+	drawThread = new NonFixedTimer(25, 0, 0, 25) {
+
+	    @Override
+	    public void run() {
+		canvas.repaint();
+	    }
+	};
+    }
+    private void gameOver() {
+	drawThread.stop();
+	droperThread.stop();
+	fillerThread.stop();
+	System.err.println("game over");	
     }
 
-    private void initModel(){
+    private void initModel() {
 	for (int y = 0; y < config.getInitialFill(); y++)
 	    for (int x = 0; x < config.getCanvasHeight(); x++) {
 		if (getRandomBoolean())

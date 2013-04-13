@@ -36,8 +36,9 @@ public class Square implements Serializable, Comparable<Square> {
     protected int pixelMovment(){
 	return 2;
     }
-    public void setPosX(int posX) {
+    public Square setPosX(int posX) {
 	this.posX = posX;
+	return this;
     }
 
     public int getPosY() {
