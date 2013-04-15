@@ -4,15 +4,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.ThreadLocalRandom;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import canvas.Cursor;
 import canvas.GtrisCanvas;
 import controller.shape.Pair;
 import data.Color;
 import data.Config;
-import data.Images;
 import data.Square;
 
 /**
@@ -43,7 +41,7 @@ public class GtrisController {
 	initModel();
 	initThreads();
 	initEvents();
-
+	
     }
 
     private void initEvents() {
@@ -125,17 +123,16 @@ public class GtrisController {
 	};
     }
 
-    private void gameOver() {
-		
+    private void gameOver() {		
 	drawThread.stop();
 	droperThread.stop();
 	fillerThread.stop();
-	canvas.add(new JLabel(new ImageIcon(Images.getImage("gameOver.png"))));
+	JOptionPane.showMessageDialog(canvas, "Game Over", "Game Over", JOptionPane.ERROR_MESSAGE);	
     }
 
     private void initModel() {
 	for (int y = 0; y < config.getInitialFill(); y++)
-	    for (int x = 0; x < config.getCanvasHeight(); x++) {
+	    for (int x = 0; x < config.getCanvasWidth(); x++) {
 		if (getRandomBoolean())
 		    continue;
 		Square square = new Square();

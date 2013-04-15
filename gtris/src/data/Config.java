@@ -90,6 +90,9 @@ public final class Config {
     public int getDropSpeed() {
 	return dropSpeed;
     }
+    public void setDropSpeed( int dropSpeed) {
+	this.dropSpeed=dropSpeed;
+    }
 
     
     public void speedUp(int multipler) {
