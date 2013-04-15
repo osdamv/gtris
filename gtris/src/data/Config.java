@@ -12,10 +12,10 @@ public final class Config {
     /**
      * this data is in game units, no pixels
      */
-    private int canvasHeight = 20;
-    private int canvasWidth = 20;
+    private int canvasHeight = 10;
+    private int canvasWidth = 10;
     private long drawTime = 120000;
-    private int initialFill = 9;
+    private int initialFill = 10;
     private int dropSpeed = 1;
 
     private static final Config config = new Config();

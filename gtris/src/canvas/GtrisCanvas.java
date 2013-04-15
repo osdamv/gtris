@@ -63,6 +63,7 @@ public class GtrisCanvas extends JComponent {
 		}
 	g.drawImage(cursor.getImage(), cursor.getCoordX(), cursor.getCoordY(), this);
 	g.setColor(Color.WHITE);
-	g.drawString("Points: " + model.getPoints(), 10, 10);
+	g.drawString("Points: " + model.getPoints(), 10, 10);	
+	
     }
 }

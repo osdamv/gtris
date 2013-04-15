@@ -14,8 +14,8 @@ public class ShapeFinder {
 	this.data = squares;
 	hashFound.add(startSquare);
 	Square buff = startSquare;
-	for (Tuple<Integer, Integer> x : figureInc) {
-	    buff = findSquare(buff.getPosX() + x.getX(), buff.getPosY() + x.getY());
+	for (Tuple<Integer, Integer> t : figureInc) {
+	    buff = findSquare(buff.getPosX() + t.getX(), buff.getPosY() + t.getY());
 	    if (isInValid(buff, startSquare))
 		break;
 	    hashFound.add(buff);

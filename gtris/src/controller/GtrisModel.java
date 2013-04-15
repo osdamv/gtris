@@ -272,12 +272,29 @@ public class GtrisModel implements Serializable {
      * @param pair
      */
     public boolean add(Pair pair) {
+	if (isAvailable(pair.getLeft()) && isAvailable(pair.getRight())) {
+	    add(pair.getLeft());
+	    add(pair.getRight());
+	    return true;
+	}
+	for(int x=0; x<config.getCanvasWidth();x+=2){
+	    if(isAvailable(x, config.getCanvasHeight()-1) && isAvailable(x+1, config.getCanvasHeight()-1)){
+		pair.getLeft().setPosX(x);
+		pair.getRight().setPosX(x+1);
+		add(pair.getLeft());
+		add(pair.getRight());
+		return true;
+	    }
+	}
 
-	add(pair.getLeft());
-	add(pair.getRight());
-	dropSquare(pair.getLeft());
-	dropSquare(pair.getRight());
-	return true;
+	return false;
+    }
+
+    private boolean isAvailable(Square s) {
+	return isAvailable(s.getPosX(), s.getPosY());
+    }
+    private boolean isAvailable( int posx, int posy) {
+	return findSquare(posx,posy, squares) == null;
     }
 
     public Cursor getCursor() {

@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Label;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.ThreadLocalRandom;
@@ -37,8 +38,10 @@ public class GtrisController {
 	this.model = model;
 	this.canvas = canvas;
 	initModel();
-	initThreads();
+	
 	initEvents();
+	canvas.add(new Label("You loose"));
+
     }
 
     private void initEvents() {
@@ -121,6 +124,7 @@ public class GtrisController {
     }
 
     private void gameOver() {
+		
 	drawThread.stop();
 	droperThread.stop();
 	fillerThread.stop();
