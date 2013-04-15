@@ -45,7 +45,7 @@ public class Cursor extends Square {
 
     @Override
     protected int pixelMovment() {
-	return 8;
+	return 16;
     }
 
     public Square getSelectedSquare() {

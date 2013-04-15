@@ -2,6 +2,8 @@ package controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.JOptionPane;
@@ -46,6 +48,35 @@ public class GtrisController {
     }
 
     private void initEvents() {
+	canvas.addMouseListener(new MouseListener() {
+
+	    @Override
+	    public void mouseReleased(MouseEvent e) {
+
+	    }
+
+	    @Override
+	    public void mousePressed(MouseEvent e) {
+	    }
+
+	    @Override
+	    public void mouseExited(MouseEvent e) {
+
+	    }
+
+	    @Override
+	    public void mouseEntered(MouseEvent e) {
+
+	    }
+
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+		if (e.getButton() == 1){
+		    model.setCursorPosition(e.getX(),e.getY());
+		    model.swapSquare();
+		}
+	    }
+	});
 	canvas.addKeyListener(new KeyListener() {
 
 	    @Override

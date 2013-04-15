@@ -264,7 +264,7 @@ public class GtrisModel implements Serializable {
     }
 
     public synchronized void add(Cursor cursor) {
-	this.setCursor(cursor);
+	this.cursor=cursor;
     }
 
     /**
@@ -303,9 +303,7 @@ public class GtrisModel implements Serializable {
 	return cursor;
     }
 
-    public void setCursor(Cursor cursor) {
-	this.cursor = cursor;
-    }
+     
 
     public synchronized void swapSquare() {
 	Square currentSquare = findSquare(cursor.getPosX(), cursor.getPosY(), squares);
@@ -339,6 +337,14 @@ public class GtrisModel implements Serializable {
 
     public long getPoints() {
 	return points;
+    }
+
+    public void setCursorPosition(int coordX, int coordY) {
+	int posx=coordX/config.getSquareWidthPx();
+	int posy=(config.getCanvasHeightPx()-coordY)/config.getSquareHeightPx();	
+	cursor.setPosX(posx);
+	cursor.setPosY(posy);
+	
     }
 
 }
