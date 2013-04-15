@@ -1,7 +1,8 @@
 package data;
 
-import java.io.File;
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -18,12 +19,12 @@ public final class Sound {
 	Clip song = null, puff = null;
 
 	try {
-	    String path = ClassLoader.getSystemClassLoader().getResource("song.wav").getFile();
-	    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+	    InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("song.wav");
+	    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(stream));
 	    song = AudioSystem.getClip();
 	    song.open(audioInputStream);
-	    path = ClassLoader.getSystemClassLoader().getResource("puff.wav").getFile();
-	    audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+	    stream = ClassLoader.getSystemClassLoader().getResourceAsStream("puff.wav");
+	    audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(stream));
 	    puff = AudioSystem.getClip();
 	    puff.open(audioInputStream);
 	} catch (UnsupportedAudioFileException | IOException e) {
