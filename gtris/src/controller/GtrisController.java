@@ -1,15 +1,18 @@
 package controller;
 
-import java.awt.Label;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 import canvas.Cursor;
 import canvas.GtrisCanvas;
 import controller.shape.Pair;
 import data.Color;
 import data.Config;
+import data.Images;
 import data.Square;
 
 /**
@@ -38,9 +41,8 @@ public class GtrisController {
 	this.model = model;
 	this.canvas = canvas;
 	initModel();
-	
+	initThreads();
 	initEvents();
-	canvas.add(new Label("You loose"));
 
     }
 
@@ -128,7 +130,7 @@ public class GtrisController {
 	drawThread.stop();
 	droperThread.stop();
 	fillerThread.stop();
-	System.err.println("game over");
+	canvas.add(new JLabel(new ImageIcon(Images.getImage("gameOver.png"))));
     }
 
     private void initModel() {
