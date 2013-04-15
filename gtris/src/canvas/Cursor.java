@@ -12,7 +12,7 @@ public class Cursor extends Square {
     private static final Image img = Images.getImage("cursor.png");
     private Config config = Config.getInstance();
     private Square selectedSquare;
-
+ 
     public Cursor() {
 	posY = 0;
     }
@@ -57,12 +57,12 @@ public class Cursor extends Square {
     }
 
     public boolean isValidSwap() {
-	if (selectedSquare == null || selectedSquare.isFalling() || selectedSquare.isSwaping())
+	if (selectedSquare == null || selectedSquare.isFalling() || selectedSquare.isSwaping() || selectedSquare.isDeletable())
 	    return false;
-	boolean gapX = Math.abs(posX - selectedSquare.getPosX()) == 1 ? true : false;
-	boolean gapY = Math.abs(posY - selectedSquare.getPosY()) == 1 ? true : false;
+	int gapX = Math.abs(posX - selectedSquare.getPosX());
+	int gapY = Math.abs(posY - selectedSquare.getPosY()) ;
 
-	return (gapX && !gapY) || (!gapX && gapY);
+	return (gapX==1 && gapY==0) || (gapX==0 && gapY==1);
     }
 
 }

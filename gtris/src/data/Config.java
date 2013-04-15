@@ -12,10 +12,11 @@ public final class Config {
     /**
      * this data is in game units, no pixels
      */
-    private int canvasHeight = 8;
-    private int canvasWidth = 8;
+    private int canvasHeight = 20;
+    private int canvasWidth = 20;
     private long drawTime = 120000;
     private int initialFill = 9;
+    private int dropSpeed = 1;
 
     private static final Config config = new Config();
 
@@ -61,8 +62,9 @@ public final class Config {
     public int getCanvasWidth() {
 	return canvasWidth;
     }
-    public int getCanvasArea(){
-	return canvasHeight*canvasWidth;
+
+    public int getCanvasArea() {
+	return canvasHeight * canvasWidth;
     }
 
     public void setCanvasWidth(int canvasWidth) {
@@ -83,6 +85,21 @@ public final class Config {
 
     public void setInitialFill(int initialFill) {
 	this.initialFill = initialFill;
+    }
+
+    public int getDropSpeed() {
+	return dropSpeed;
+    }
+
+    
+    public void speedUp(int multipler) {
+	if(multipler==0)
+	    multipler=1;
+	if(multipler>3)
+	    return;
+	if(dropSpeed==8)
+	    return;
+	dropSpeed=(int) Math.pow(2, multipler);
     }
 
 }

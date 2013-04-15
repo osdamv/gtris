@@ -2,7 +2,7 @@ package controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import canvas.Cursor;
 import canvas.GtrisCanvas;
@@ -90,19 +90,20 @@ public class GtrisController {
     private void initThreads() {
 	// add a new pair every 2 seconds, decrease the speed of fall every 2
 	// minutes 100 ms, with a minimum of 1 second
-	fillerThread = new NonFixedTimer(2000, -100, 120000, 1000) {
+	fillerThread = new NonFixedTimer(2000, -500, 120000, 1000) {
 
 	    @Override
-	    public void run() {
+	    public void run() {		
+		config.speedUp((int) (model.getPoints()/1000));
 		if (!model.add(new Pair()))
 		    gameOver();
 		model.performDelete();
 	    }
 
-	    
-	};
+	};		
+	
 	// drop elements
-	droperThread = new NonFixedTimer(400, -25, 6000, 100) {
+	droperThread = new NonFixedTimer(50, 0, 0, 50) {
 	    @Override
 	    public void run() {
 		model.fallSquares();
@@ -118,11 +119,12 @@ public class GtrisController {
 	    }
 	};
     }
+
     private void gameOver() {
 	drawThread.stop();
 	droperThread.stop();
 	fillerThread.stop();
-	System.err.println("game over");	
+	System.err.println("game over");
     }
 
     private void initModel() {
@@ -133,15 +135,14 @@ public class GtrisController {
 		Square square = new Square();
 		square.setColor(getRandomColor());
 		square.setPosX(x);
+		square.setPosY(y);
 		model.add(square);
-		while (model.dropSquare(square))
-		    ;
+		while (model.dropSquare(square));
 		square.setInFinallCoordY();
 	    }
+
 	Cursor cursor = new Cursor();
 	model.add(cursor);
-	while (model.dropSquare(cursor))
-	    ;
 	cursor.setInFinallCoordY();
     }
 
@@ -155,10 +156,7 @@ public class GtrisController {
      * @return a random number in the given range
      */
     public static final int getRandom(int bottom, int top) {
-	Random rnd = new Random(System.nanoTime());
-	int value = rnd.nextInt(top);
-
-	return value;
+	return ThreadLocalRandom.current().nextInt(bottom, top);
     }
 
     /**

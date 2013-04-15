@@ -1,7 +1,6 @@
 package controller.shape;
 
 import java.util.HashSet;
-import java.util.Set;
 
 import controller.GtrisModel;
 import data.Square;
@@ -9,10 +8,10 @@ import data.Tuple;
 
 public class ShapeFinder {
     private HashSet<Square> hashFound = new HashSet<Square>(4);
-    private Set<Square> data;
+    private Square[][] data;
 
-    public ShapeFinder(Square startSquare, Set<Square> data, Tuple<Integer, Integer>[] figureInc) {
-	this.data = data;
+    public ShapeFinder(Square startSquare, Square[][] squares, Tuple<Integer, Integer>[] figureInc) {
+	this.data = squares;
 	hashFound.add(startSquare);
 	Square buff = startSquare;
 	for (Tuple<Integer, Integer> x : figureInc) {
@@ -22,7 +21,7 @@ public class ShapeFinder {
 	    hashFound.add(buff);
 	}
 
-    }
+    } 
 
     private boolean isInValid(Square buff, Square startSquare) {
 	return buff == null || buff.getColor() != startSquare.getColor() || buff.isFalling() || buff.isSwaping()
@@ -37,7 +36,7 @@ public class ShapeFinder {
     }
 
     protected Square findSquare(int posx, int posy) {
-	return GtrisModel.findNextSquare(posx, posy, data);
+	return GtrisModel.findSquare(posx, posy, data);
     }
 
 }

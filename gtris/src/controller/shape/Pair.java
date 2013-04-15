@@ -11,12 +11,12 @@ public class Pair {
     public Pair() {
 	left = new Square();
 	left.setFalling(true);
-	left.setPosY(Config.getInstance().getCanvasHeight());
+	left.setPosY(Config.getInstance().getCanvasHeight()-1);
 	left.setColor(GtrisController.getRandomColor());
 	left.setPosX(GtrisController.getRandom(0, Config.getInstance().getCanvasWidth() - 1));
 	right = new Square();
 	right.setFalling(true);
-	right.setPosY(Config.getInstance().getCanvasHeight());
+	right.setPosY(Config.getInstance().getCanvasHeight()-1);
 	right.setColor(GtrisController.getRandomColor());
 	right.setPosX(left.getPosX() + 1);
     }

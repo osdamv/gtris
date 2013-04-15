@@ -1,13 +1,8 @@
 package controller;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 import canvas.Cursor;
 import controller.shape.Pair;
@@ -26,7 +21,8 @@ import data.Tuple;
 public class GtrisModel implements Serializable {
 
     private static final long serialVersionUID = -5847873452769942837L;
-    public Set<Square> squares = Collections.newSetFromMap(new ConcurrentHashMap<Square,Boolean>());
+    private Config config = Config.getInstance();
+    public Square[][] squares = new Square[config.getCanvasWidth()][config.getCanvasHeight()];
     private Cursor cursor = new Cursor();
     private long points = 0;
     private long initTime = System.currentTimeMillis();
@@ -36,7 +32,7 @@ public class GtrisModel implements Serializable {
      * 
      * @return a Set of Data, the order doesn't matter in this case
      */
-    public Set<Square> getSquares() {
+    public Square[][] getSquares() {
 	return squares;
     }
 
@@ -44,9 +40,10 @@ public class GtrisModel implements Serializable {
      * Try to fall al squares
      */
     public void fallSquares() {
-	for (Square s : squares) {
-	    dropSquare(s);
-	}
+	for (Square[] l : squares)
+	    for (Square s : l)
+		if (s != null)
+		    dropSquare(s);
     }
 
     /**
@@ -57,15 +54,16 @@ public class GtrisModel implements Serializable {
      * @return false if cannot be dropped anymore, true otherwise
      */
     public boolean dropSquare(Square square) {
-	Square nextSquare = findNextSquare(square.getPosX(), square.getPosY() - 1, squares);
+	Square nextSquare = findSquare(square.getPosX(), square.getPosY() - 1, squares);
 	if (square.getPosY() == 0 || nextSquare != null)
 	    return false;
-	square.decreasePosY();
+	square.decreasePosY(squares);
+
 	return true;
     }
 
     /**
-     * Find the consecutive bottom square, of given coordinates
+     * Find an square
      * 
      * @param posx
      *            coordinate in x axis
@@ -73,12 +71,12 @@ public class GtrisModel implements Serializable {
      *            coordinate in y axis
      * @return an square if found something, null otherwise
      */
-    public static final Square findNextSquare(int posx, int posy, Set<Square> data) {
-	for (Square s : data) {
-	    if (s.isInPosition(posx, posy))
-		return s;
+    public static final Square findSquare(int posx, int posy, Square[][] data) {
+	try {
+	    return data[posx][posy];
+	} catch (IndexOutOfBoundsException e) {
+	    return null;
 	}
-	return null;
     }
 
     private static final HashMap<String, Tuple<Integer, Integer>[]> shapes = new HashMap<String, Tuple<Integer, Integer>[]>();
@@ -227,23 +225,23 @@ public class GtrisModel implements Serializable {
 
     public synchronized void markDeletable() {
 	HashSet<Square> toBeErased = new HashSet<Square>();
-	for (Square s : squares) {
-	    for (String tupleKey : shapes.keySet()) {
-		ShapeFinder shape = new ShapeFinder(s, squares, shapes.get(tupleKey));
-		toBeErased.addAll(shape.getFound());
-		if (!toBeErased.isEmpty()) {
-		    for (Square e : toBeErased) {
-			e.setDeletable(true);
+	for (Square[] l : squares) {
+	    for (Square s : l)
+		if (s != null)
+		    for (String tupleKey : shapes.keySet()) {
+			ShapeFinder shape = new ShapeFinder(s, squares, shapes.get(tupleKey));
+			toBeErased.addAll(shape.getFound());
+			if (!toBeErased.isEmpty()) {
+			    for (Square e : toBeErased) {
+				e.setDeletable(true);
+			    }
+			    calculatePunctuation(tupleKey);
+			    break;
+			}
 		    }
-		    calculatePunctuation(tupleKey);
-		    break;
-		}
-	    }
 	    if (!toBeErased.isEmpty())
 		break;
 	}
-	System.err.println(points);
-
     }
 
     private void calculatePunctuation(String shade) {
@@ -261,7 +259,7 @@ public class GtrisModel implements Serializable {
      */
     public synchronized void add(Square square) {
 
-	squares.add(square);
+	squares[square.getPosX()][square.getPosY()] = square;
     }
 
     public synchronized void add(Cursor cursor) {
@@ -274,28 +272,12 @@ public class GtrisModel implements Serializable {
      * @param pair
      */
     public boolean add(Pair pair) {
-	Square l = findNextSquare(pair.getLeft().getPosX(), pair.getLeft().getPosY(), squares);
-	Square r = findNextSquare(pair.getRight().getPosX(), pair.getRight().getPosY(), squares);
-	if ((l == null && r == null)) {
-	    add(pair.getLeft());
-	    add(pair.getRight());
-	    dropSquare(pair.getLeft());
-	    dropSquare(pair.getRight());
-	    return true;
-	} else {
-	    for (int x = 0; x < Config.getInstance().getCanvasWidth(); x += 2) {
-		l = findNextSquare(x, pair.getLeft().getPosY(), squares);
-		r = findNextSquare(x + 1, pair.getRight().getPosY(), squares);
-		if (l == null && r == null) {
-		    dropSquare(pair.getLeft().setPosX(x));
-		    dropSquare(pair.getRight().setPosX(x+1));
-		    return true;
-		}
 
-	    }
-	    return false;
-	}
-
+	add(pair.getLeft());
+	add(pair.getRight());
+	dropSquare(pair.getLeft());
+	dropSquare(pair.getRight());
+	return true;
     }
 
     public Cursor getCursor() {
@@ -307,8 +289,8 @@ public class GtrisModel implements Serializable {
     }
 
     public synchronized void swapSquare() {
-	Square currentSquare = findNextSquare(cursor.getPosX(), cursor.getPosY(), squares);
-	if (cursor.isValidSwap() && currentSquare != null) {
+	Square currentSquare = findSquare(cursor.getPosX(), cursor.getPosY(), squares);
+	if (cursor.isValidSwap() && currentSquare != null && !currentSquare.isDeletable()) {
 	    Square selected = cursor.getSelectedSquare();
 	    int sx = selected.getPosX();
 	    int sy = selected.getPosY();
@@ -327,11 +309,10 @@ public class GtrisModel implements Serializable {
     }
 
     public synchronized void performDelete() {
-	Iterator<Square> itera = squares.iterator();
-	while (itera.hasNext()) {
-	    if (itera.next().isDeletable())
-		itera.remove();
-	}
+	for (Square[] l : squares)
+	    for (Square s : l)
+		if (s != null && s.isDeletable())
+		    squares[s.getPosX()][s.getPosY()] = null;
 
     }
 

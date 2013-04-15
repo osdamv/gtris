@@ -33,15 +33,17 @@ public class GtrisCanvas extends JComponent {
     public GtrisCanvas(GtrisModel model) {
 	this.model = model;
 	Dimension dimension = new Dimension(Config.getInstance().getCanvasWidthPx(), Config.getInstance()
-		.getCanvasHeightPx()+5);
+		.getCanvasHeightPx() + 5);
 	setPreferredSize(dimension);
 	setMaximumSize(dimension);
 	setIgnoreRepaint(true);
 	setFocusable(true);
-	setRequestFocusEnabled(true);	
+	setRequestFocusEnabled(true);
 	setLayout(new FlowLayout());
     }
-    private static final Image img=Images.getImage("delete.png");
+
+    private static final Image img = Images.getImage("delete.png");
+
     /**
      * draw of the squares represented in the model
      */
@@ -49,16 +51,18 @@ public class GtrisCanvas extends JComponent {
     protected void paintComponent(Graphics g) {
 	super.paintComponent(g);
 	Cursor cursor = model.getCursor();
-	for (Square s : model.getSquares()) {
-	    if (!s.isSwaping())
-		s.setInFinallCoordX();
-	    g.drawImage(s.getImage(), s.getCoordX(), s.getCoordY(), this);
-	    if(s.isDeletable()){
-		g.drawImage(img, s.getCoordX(), s.getCoordY(), this);
-	    }
-	}
+	for (Square[] l : model.getSquares())
+	    for (Square s : l)
+		if (s != null) {
+		    if (!s.isSwaping())
+			s.setInFinallCoordX();
+		    g.drawImage(s.getImage(), s.getCoordX(), s.getCoordY(), this);
+		    if (s.isDeletable()) {
+			g.drawImage(img, s.getCoordX(), s.getCoordY(), this);
+		    }
+		}
 	g.drawImage(cursor.getImage(), cursor.getCoordX(), cursor.getCoordY(), this);
 	g.setColor(Color.WHITE);
-	g.drawString("Points: "+model.getPoints(), 10, 10);
+	g.drawString("Points: " + model.getPoints(), 10, 10);
     }
 }
