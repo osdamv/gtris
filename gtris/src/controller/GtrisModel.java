@@ -8,6 +8,7 @@ import canvas.Cursor;
 import controller.shape.Pair;
 import controller.shape.ShapeFinder;
 import data.Config;
+import data.Sound;
 import data.Square;
 import data.Tuple;
 
@@ -277,10 +278,10 @@ public class GtrisModel implements Serializable {
 	    add(pair.getRight());
 	    return true;
 	}
-	for(int x=0; x<config.getCanvasWidth();x+=2){
-	    if(isAvailable(x, config.getCanvasHeight()-1) && isAvailable(x+1, config.getCanvasHeight()-1)){
+	for (int x = 0; x < config.getCanvasWidth(); x += 2) {
+	    if (isAvailable(x, config.getCanvasHeight() - 1) && isAvailable(x + 1, config.getCanvasHeight() - 1)) {
 		pair.getLeft().setPosX(x);
-		pair.getRight().setPosX(x+1);
+		pair.getRight().setPosX(x + 1);
 		add(pair.getLeft());
 		add(pair.getRight());
 		return true;
@@ -293,8 +294,9 @@ public class GtrisModel implements Serializable {
     private boolean isAvailable(Square s) {
 	return isAvailable(s.getPosX(), s.getPosY());
     }
-    private boolean isAvailable( int posx, int posy) {
-	return findSquare(posx,posy, squares) == null;
+
+    private boolean isAvailable(int posx, int posy) {
+	return findSquare(posx, posy, squares) == null;
     }
 
     public Cursor getCursor() {
@@ -328,8 +330,10 @@ public class GtrisModel implements Serializable {
     public synchronized void performDelete() {
 	for (Square[] l : squares)
 	    for (Square s : l)
-		if (s != null && s.isDeletable())
+		if (s != null && s.isDeletable()) {		    
 		    squares[s.getPosX()][s.getPosY()] = null;
+		    Sound.playPuff();
+		}
 
     }
 

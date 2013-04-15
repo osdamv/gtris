@@ -24,9 +24,9 @@ import data.Images;
 
 public class Main {
     public static void main(String[] args) {
-
 	System.setProperty("sun.java2d.opengl", Boolean.TRUE.toString());
-
+	
+	
 	JDialog dialog = null;
 	JOptionPane optionPane = new JOptionPane();
 	optionPane.setMessage("Difficulty");

@@ -11,6 +11,7 @@ import canvas.GtrisCanvas;
 import controller.shape.Pair;
 import data.Color;
 import data.Config;
+import data.Sound;
 import data.Square;
 
 /**
@@ -41,7 +42,7 @@ public class GtrisController {
 	initModel();
 	initThreads();
 	initEvents();
-	
+
     }
 
     private void initEvents() {
@@ -96,15 +97,15 @@ public class GtrisController {
 	fillerThread = new NonFixedTimer(2000, -500, 120000, 1000) {
 
 	    @Override
-	    public void run() {		
-		config.speedUp((int) (model.getPoints()/1000));
+	    public void run() {
+		config.speedUp((int) (model.getPoints() / 1000));
 		if (!model.add(new Pair()))
 		    gameOver();
 		model.performDelete();
 	    }
 
-	};		
-	
+	};
+
 	// drop elements
 	droperThread = new NonFixedTimer(50, 0, 0, 50) {
 	    @Override
@@ -121,13 +122,15 @@ public class GtrisController {
 		canvas.repaint();
 	    }
 	};
+	Sound.playSong();
+
     }
 
-    private void gameOver() {		
+    private void gameOver() {
 	drawThread.stop();
 	droperThread.stop();
 	fillerThread.stop();
-	JOptionPane.showMessageDialog(canvas, "Game Over", "Game Over", JOptionPane.ERROR_MESSAGE);	
+	JOptionPane.showMessageDialog(canvas, "Game Over", "Game Over", JOptionPane.ERROR_MESSAGE);
     }
 
     private void initModel() {
@@ -140,7 +143,8 @@ public class GtrisController {
 		square.setPosX(x);
 		square.setPosY(y);
 		model.add(square);
-		while (model.dropSquare(square));
+		while (model.dropSquare(square))
+		    ;
 		square.setInFinallCoordY();
 	    }
 
