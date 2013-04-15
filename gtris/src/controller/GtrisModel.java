@@ -278,7 +278,7 @@ public class GtrisModel implements Serializable {
 	    add(pair.getRight());
 	    return true;
 	}
-	for (int x = 0; x < config.getCanvasWidth(); x += 2) {
+	for (int x = 0; x < config.getCanvasWidth()-1; x ++) {
 	    if (isAvailable(x, config.getCanvasHeight() - 1) && isAvailable(x + 1, config.getCanvasHeight() - 1)) {
 		pair.getLeft().setPosX(x);
 		pair.getRight().setPosX(x + 1);
@@ -317,7 +317,6 @@ public class GtrisModel implements Serializable {
 	    currentSquare.setPosY(sy);
 	    selected.setSwaping(true);
 	    currentSquare.setSwaping(true);
-	    cursor.setSelectedSquare(null);
 	    add(currentSquare);
 	    add(selected);
 	} else {

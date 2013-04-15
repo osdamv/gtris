@@ -45,13 +45,15 @@ public class Main {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+		    
 		    Config config = Config.getInstance();
 		    switch (id) {
 		    case 0:
-			config.setCanvasHeight(9);
-			config.setCanvasWidth(5);
-			config.setInitialFill(5);
-			config.setDropSpeed(1);
+			config.setCanvasHeight(20);
+			config.setCanvasWidth(20);
+			config.setInitialFill(20);
+			config.setDrawTime(60000);
+			config.setDropSpeed(4);						
 			break;
 		    case 1:
 			config.setCanvasHeight(15);
@@ -60,11 +62,11 @@ public class Main {
 			config.setDropSpeed(2);
 			break;
 		    case 2:
-			config.setCanvasHeight(20);
-			config.setCanvasWidth(20);
-			config.setInitialFill(20);
-			config.setDrawTime(60000);
+			config.setCanvasHeight(9);
+			config.setCanvasWidth(5);
+			config.setInitialFill(5);
 			config.setDropSpeed(4);
+			config.setDrawTime(60000);
 			break;
 		    }
 		}

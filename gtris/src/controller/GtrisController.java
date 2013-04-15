@@ -71,10 +71,12 @@ public class GtrisController {
 
 	    @Override
 	    public void mouseClicked(MouseEvent e) {
+
 		if (e.getButton() == 1){
-		    model.setCursorPosition(e.getX(),e.getY());
+		    model.setCursorPosition(e.getX(),e.getY());		
 		    model.swapSquare();
 		}
+		
 	    }
 	});
 	canvas.addKeyListener(new KeyListener() {
@@ -132,7 +134,7 @@ public class GtrisController {
 		config.speedUp((int) (model.getPoints() / 1000));
 		if (!model.add(new Pair()))
 		    gameOver();
-		model.performDelete();
+		
 	    }
 
 	};
@@ -142,6 +144,7 @@ public class GtrisController {
 	    @Override
 	    public void run() {
 		model.fallSquares();
+		model.performDelete();
 		model.markDeletable();
 	    }
 	};
