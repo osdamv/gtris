@@ -21,8 +21,16 @@ import controller.GtrisController;
 import controller.GtrisModel;
 import data.Config;
 import data.Images;
-
+/**
+ * Main class, all start here 
+ * @author dvelazquez
+ * @since 16/04/2013
+ */
 public class Main { 
+    /**
+     * setup of all the game
+     * 
+     */
     public static void main(String[] args) {
 	System.setProperty("sun.java2d.opengl", Boolean.TRUE.toString());
 	

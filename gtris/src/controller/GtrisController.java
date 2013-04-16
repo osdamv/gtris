@@ -130,7 +130,7 @@ public class GtrisController {
      */
     private void initThreads() {
 	// add a new pair every 2 seconds, decrease the speed of fall every 2
-	// minutes 100 ms, with a minimum of 1 second
+	// minutes 500 ms, with a minimum of 1 second, and also checks the game over status
 	fillerThread = new NonFixedTimer(2000, -500, 120000, 1000) {
 
 	    @Override
@@ -143,7 +143,7 @@ public class GtrisController {
 
 	};
 
-	// drop elements
+	// drop elements, and delete elements
 	droperThread = new NonFixedTimer(50, 0, 0, 50) {
 	    @Override
 	    public void run() {

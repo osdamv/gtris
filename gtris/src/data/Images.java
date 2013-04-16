@@ -6,7 +6,11 @@ import java.net.URL;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
-
+/**
+ * create a cache of images, speeding up all the game 
+ * @author dvelazquez
+ * @since 16/04/2013
+ */
 public class Images {
     private static final HashMap<String, Image> IMAGES = new HashMap<String, Image>();
 

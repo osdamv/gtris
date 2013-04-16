@@ -80,6 +80,9 @@ public class GtrisModel implements Serializable {
 	}
     }
 
+    /**
+     * figures and points map
+     */
     private static final HashMap<String, Tuple<Integer, Integer>[]> shapes = new HashMap<String, Tuple<Integer, Integer>[]>();
     private static final HashMap<String, Integer> pointsTable = new HashMap<String, Integer>();
     static {
@@ -223,7 +226,9 @@ public class GtrisModel implements Serializable {
 	pointsTable.put("blockzih", 16);
 
     }
-
+    /**
+     * mark elements who can be deleted, and update the game points 
+     */
     public synchronized void markDeletable() {
 	HashSet<Square> toBeErased = new HashSet<Square>();
 	for (Square[] l : squares) {
@@ -236,7 +241,7 @@ public class GtrisModel implements Serializable {
 			    for (Square e : toBeErased) {
 				e.setDeletable(true);
 			    }
-			    calculatePunctuation(tupleKey);
+			    calculatePoints(tupleKey);
 			    break;
 			}
 		    }
@@ -244,8 +249,11 @@ public class GtrisModel implements Serializable {
 		break;
 	}
     }
-
-    private void calculatePunctuation(String shade) {
+    /**
+     * get the current game points
+     * 
+     */
+    private void calculatePoints(String shade) {
 	points += pointsTable.get(shade);
 	long diffTime = (System.currentTimeMillis() - initTime) / 10000;
 	points += diffTime * 20;
@@ -264,7 +272,7 @@ public class GtrisModel implements Serializable {
     }
 
     public synchronized void add(Cursor cursor) {
-	this.cursor=cursor;
+	this.cursor = cursor;
     }
 
     /**
@@ -278,7 +286,7 @@ public class GtrisModel implements Serializable {
 	    add(pair.getRight());
 	    return true;
 	}
-	for (int x = 0; x < config.getCanvasWidth()-1; x ++) {
+	for (int x = 0; x < config.getCanvasWidth() - 1; x++) {
 	    if (isAvailable(x, config.getCanvasHeight() - 1) && isAvailable(x + 1, config.getCanvasHeight() - 1)) {
 		pair.getLeft().setPosX(x);
 		pair.getRight().setPosX(x + 1);
@@ -290,21 +298,27 @@ public class GtrisModel implements Serializable {
 
 	return false;
     }
-
+    /**
+     * check if the given location is available  
+     * 
+     */
     private boolean isAvailable(Square s) {
 	return isAvailable(s.getPosX(), s.getPosY());
     }
-
+    /**
+     * check if the given location is available  
+     * 
+     */
     private boolean isAvailable(int posx, int posy) {
 	return findSquare(posx, posy, squares) == null;
     }
-
+    
     public Cursor getCursor() {
 	return cursor;
     }
-
-     
-
+    /**
+     * perform the swap action 
+     */
     public synchronized void swapSquare() {
 	Square currentSquare = findSquare(cursor.getPosX(), cursor.getPosY(), squares);
 	if (cursor.isValidSwap() && currentSquare != null && !currentSquare.isDeletable()) {
@@ -323,11 +337,13 @@ public class GtrisModel implements Serializable {
 	    cursor.setSelectedSquare(currentSquare);
 	}
     }
-
+    /**
+     * delete elements marked as deletable 
+     */
     public synchronized void performDelete() {
 	for (Square[] l : squares)
 	    for (Square s : l)
-		if (s != null && s.isDeletable()) {		    
+		if (s != null && s.isDeletable()) {
 		    squares[s.getPosX()][s.getPosY()] = null;
 		    Sound.playPuff();
 		}
@@ -337,13 +353,17 @@ public class GtrisModel implements Serializable {
     public long getPoints() {
 	return points;
     }
-
+    
+    /**
+     * set the cursor position in the given coordinates
+     * 
+     */
     public void setCursorPosition(int coordX, int coordY) {
-	int posx=coordX/config.getSquareWidthPx();
-	int posy=(config.getCanvasHeightPx()-coordY)/config.getSquareHeightPx();	
+	int posx = coordX / config.getSquareWidthPx();
+	int posy = (config.getCanvasHeightPx() - coordY) / config.getSquareHeightPx();
 	cursor.setPosX(posx);
 	cursor.setPosY(posy);
-	
+
     }
 
 }

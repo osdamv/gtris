@@ -12,7 +12,6 @@ import data.Square;
  */
 public class Cursor extends Square {
 
-    private static final long serialVersionUID = 6830138528385728405L;
     private static final Image img = Images.getImage("cursor.png");
     private Config config = Config.getInstance();
     private Square selectedSquare;

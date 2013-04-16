@@ -9,7 +9,11 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
+/**
+ * helping class who helps with the sound 
+ * @author dvelazquez
+ * @since 16/04/2013
+ */
 public final class Sound {
 
     private static final Clip SONG;
@@ -39,12 +43,16 @@ public final class Sound {
     private Sound() {
 
     }
-
+    /**
+     * start the music theme
+     */
     public static void playSong() {
 	SONG.loop(Clip.LOOP_CONTINUOUSLY);
 	SONG.start();
     }
-
+    /**
+     * start the sound fx called  "puff", used when a figure is marked to be deleted 
+     */
     public static void playPuff() {
 	if (!PUFF.isRunning()) {
 	    PUFF.setFramePosition(0);

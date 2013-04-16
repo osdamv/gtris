@@ -1,5 +1,11 @@
 package data;
-
+/**
+ * Tuple helping class 
+ * @author dvelazquez
+ * @since 16/04/2013
+ * @param <X>
+ * @param <Y>
+ */
 public class Tuple<X, Y> {
     private X x;
     private Y y;

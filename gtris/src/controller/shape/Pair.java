@@ -11,7 +11,10 @@ import data.Square;
 public class Pair {
     private Square left;
     private Square right;
-
+    /**
+     * Constructor, generate a random pair of Squares
+     *
+     */
     public Pair() {
 	left = new Square();
 	left.setFalling(true);
