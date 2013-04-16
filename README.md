@@ -17,4 +17,6 @@ tetris proyect for gameloft
 >>>Comentarios 
 	Se uso java 7
 	Se levanto un repositorio en gitub https://github.com/osdamv/gtris desde el inicio del proyecto
+	IDE usado fue eclipse SO Linux	
 	Es el primer juego que desarrollo :P
+	
