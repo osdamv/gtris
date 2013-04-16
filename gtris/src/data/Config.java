@@ -15,7 +15,7 @@ public final class Config {
     /**
      * canvas height and with in game squares(not pixels)
      */
-    private int canvasHeight = 10;
+    private int canvasHeight = 18;
     private int canvasWidth = 10;
     /**
      * time passed between in order to add a pair of squares
