@@ -315,8 +315,8 @@ public class GtrisModel implements Serializable {
 	    selected.setPosY(currentSquare.getPosY());
 	    currentSquare.setPosX(sx);
 	    currentSquare.setPosY(sy);
-	    selected.setSwaping(true);
-	    currentSquare.setSwaping(true);
+	    selected.setSwapping(true);
+	    currentSquare.setSwapping(true);
 	    add(currentSquare);
 	    add(selected);
 	} else {

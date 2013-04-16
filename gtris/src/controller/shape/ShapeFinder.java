@@ -5,11 +5,17 @@ import java.util.HashSet;
 import controller.GtrisModel;
 import data.Square;
 import data.Tuple;
-
+/**
+ * Find shapes in the squares data 
+ * @author dvelazquez
+ * @since 15/04/2013
+ * TODO cambiar las formas y ponerlas aqui
+ * 
+ */
 public class ShapeFinder {
     private HashSet<Square> hashFound = new HashSet<Square>(4);
     private Square[][] data;
-
+    
     public ShapeFinder(Square startSquare, Square[][] squares, Tuple<Integer, Integer>[] figureInc) {
 	this.data = squares;
 	hashFound.add(startSquare);
@@ -24,7 +30,7 @@ public class ShapeFinder {
     } 
 
     private boolean isInValid(Square buff, Square startSquare) {
-	return buff == null || buff.getColor() != startSquare.getColor() || buff.isFalling() || buff.isSwaping()
+	return buff == null || buff.getColor() != startSquare.getColor() || buff.isFalling() || buff.isSwapping()
 		|| startSquare.isFalling() || buff.isFalling() || buff.isDeletable() || startSquare.isDeletable();
     }
 

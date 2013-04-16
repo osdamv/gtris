@@ -5,7 +5,11 @@ import java.awt.Image;
 import data.Config;
 import data.Images;
 import data.Square;
-
+/**
+ * Cursor class
+ * @author dvelazquez
+ * @since 15/04/2013
+ */
 public class Cursor extends Square {
 
     private static final long serialVersionUID = 6830138528385728405L;
@@ -16,7 +20,7 @@ public class Cursor extends Square {
     public Cursor() {
 	posY = 0;
     }
-
+    
     public Image getImage() {
 	return img;
     }
@@ -42,7 +46,9 @@ public class Cursor extends Square {
 	    posY--;
 
     }
-
+    /**
+     * the animation speed of the cursor is different
+     */
     @Override
     protected int pixelMovment() {
 	return 16;
@@ -55,9 +61,12 @@ public class Cursor extends Square {
     public void setSelectedSquare(Square selectedSquare) {
 	this.selectedSquare = selectedSquare;
     }
-
+    /**
+     * Check if is possible perform a swap
+     * 
+     */
     public boolean isValidSwap() {
-	if (selectedSquare == null || selectedSquare.isFalling() || selectedSquare.isSwaping() || selectedSquare.isDeletable())
+	if (selectedSquare == null || selectedSquare.isFalling() || selectedSquare.isSwapping() || selectedSquare.isDeletable())
 	    return false;
 	int gapX = Math.abs(posX - selectedSquare.getPosX());
 	int gapY = Math.abs(posY - selectedSquare.getPosY()) ;

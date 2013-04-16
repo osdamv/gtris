@@ -45,7 +45,7 @@ public class GtrisCanvas extends JComponent {
     private static final Image img = Images.getImage("delete.png");
 
     /**
-     * draw of the squares represented in the model
+     * draw of the squares, score and cursor
      */
     @Override
     protected void paintComponent(Graphics g) {
@@ -54,7 +54,7 @@ public class GtrisCanvas extends JComponent {
 	for (Square[] l : model.getSquares())
 	    for (Square s : l)
 		if (s != null) {
-		    if (!s.isSwaping())
+		    if (!s.isSwapping())
 			s.setInFinallCoordX();
 		    g.drawImage(s.getImage(), s.getCoordX(), s.getCoordY(), this);
 		    if (s.isDeletable()) {

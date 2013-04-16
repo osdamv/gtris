@@ -3,7 +3,11 @@ package controller.shape;
 import controller.GtrisController;
 import data.Config;
 import data.Square;
-
+/**
+ * Represent a new pair who will be added 
+ * @author dvelazquez
+ * @since 15/04/2013
+ */
 public class Pair {
     private Square left;
     private Square right;

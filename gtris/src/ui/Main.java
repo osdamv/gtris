@@ -22,11 +22,12 @@ import controller.GtrisModel;
 import data.Config;
 import data.Images;
 
-public class Main {
+public class Main { 
     public static void main(String[] args) {
 	System.setProperty("sun.java2d.opengl", Boolean.TRUE.toString());
 	
-	
+	JFrame window = new JFrame("Gtris");
+	window.setIconImage(Images.getImage("cursor.png"));
 	JDialog dialog = null;
 	JOptionPane optionPane = new JOptionPane();
 	optionPane.setMessage("Difficulty");
@@ -54,13 +55,7 @@ public class Main {
 			config.setInitialFill(20);
 			config.setDrawTime(60000);
 			config.setDropSpeed(4);						
-			break;
-		    case 1:
-			config.setCanvasHeight(15);
-			config.setCanvasWidth(10);
-			config.setInitialFill(9);
-			config.setDropSpeed(2);
-			break;
+			break;		   
 		    case 2:
 			config.setCanvasHeight(9);
 			config.setCanvasWidth(5);
@@ -71,15 +66,17 @@ public class Main {
 		    }
 		}
 	    });
+	    if(i==1)
+		radios[i].setSelected(true);
 	    group.add(radios[i]);
 	    panel.add(radios[i]);
 	}
 	optionPane.setOptionType(JOptionPane.DEFAULT_OPTION);
 	optionPane.add(panel, 1);
-	dialog = optionPane.createDialog(null, "Difficulty");
+	dialog = optionPane.createDialog(window, "Difficulty");
 	dialog.setVisible(true);
 
-	JFrame window = new JFrame("Gtris");
+	
 
 	GtrisModel model = new GtrisModel();
 	final GtrisCanvas canvas = new GtrisCanvas(model);

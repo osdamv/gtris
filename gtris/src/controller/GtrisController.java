@@ -46,7 +46,9 @@ public class GtrisController {
 	initEvents();
 
     }
-
+    /**
+     * add all events to the canvas
+     */
     private void initEvents() {
 	canvas.addMouseListener(new MouseListener() {
 
@@ -123,7 +125,9 @@ public class GtrisController {
 	});
 
     }
-
+    /**
+     * start all the treads and also play the music 
+     */
     private void initThreads() {
 	// add a new pair every 2 seconds, decrease the speed of fall every 2
 	// minutes 100 ms, with a minimum of 1 second
@@ -159,14 +163,18 @@ public class GtrisController {
 	Sound.playSong();
 
     }
-
+    /**
+     * action performed on game over
+     */
     private void gameOver() {
 	drawThread.stop();
 	droperThread.stop();
 	fillerThread.stop();
 	JOptionPane.showMessageDialog(canvas, "Game Over", "Game Over", JOptionPane.ERROR_MESSAGE);
     }
-
+    /***
+     * initialize the model 
+     */
     private void initModel() {
 	for (int y = 0; y < config.getInitialFill(); y++)
 	    for (int x = 0; x < config.getCanvasWidth(); x++) {

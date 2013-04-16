@@ -7,15 +7,27 @@ package data;
  * @since 11/04/2013
  */
 public final class Config {
+    /**
+     * Squares size
+     */
     private int squareHeightPx = 32;
     private int squareWidthPx = 32;
     /**
-     * this data is in game units, no pixels
+     * canvas height and with in game squares(not pixels)
      */
     private int canvasHeight = 10;
     private int canvasWidth = 10;
+    /**
+     * time passed between in order to add a pair of squares
+     */
     private long drawTime = 120000;
+    /**
+     * initial rows added 
+     */
     private int initialFill = 10;
+    /**
+     * Drop speed multiplier 
+     */
     private int dropSpeed = 1;
 
     private static final Config config = new Config();

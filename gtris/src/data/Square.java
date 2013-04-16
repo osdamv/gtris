@@ -1,7 +1,6 @@
 package data;
 
 import java.awt.Image;
-import java.io.Serializable;
 
 /**
  * Square object, is an square in the game
@@ -9,17 +8,31 @@ import java.io.Serializable;
  * @author dvelazquez
  * @since 11/04/2013
  */
-public class Square implements Serializable, Comparable<Square> {
+public class Square {
 
-    private static final long serialVersionUID = -2097311988269411366L;
     private Config config = Config.getInstance();
     private Color color = null;
+    /**
+     * posy and posx represent the logical position of the square
+     */
     protected int posX = 0;
     protected int posY = config.getCanvasHeight() - 1;
+    /**
+     * flag to check if the object is falling
+     */
     private boolean falling = false;
+    /**
+     * coordY and coordX represent the logical position of the square
+     */
     private int coordY = 0;
     private int coordX = 0;
-    private boolean swaping = false;
+    /**
+     * flag to check if the object is swapping
+     */
+    private boolean swapping = false;
+    /**
+     * flag to check if the object is deletable
+     */
     private boolean deletable = false;
 
     public int getPosX() {
@@ -57,12 +70,16 @@ public class Square implements Serializable, Comparable<Square> {
 	this.color = color;
     }
 
+    /**
+     * 
+     * calculate the coordinate of the object in X
+     */
     public int getCoordX() {
 	int target = posX * config.getSquareWidthPx();
-	swaping = true;
+	swapping = true;
 	int dif = target - coordX;
 	if (dif == 0)
-	    swaping = false;
+	    swapping = false;
 	else if (Math.abs(dif) < pixelMovment())
 	    setInFinallCoordX();
 	else if ((target - coordX) < 0)
@@ -73,6 +90,10 @@ public class Square implements Serializable, Comparable<Square> {
 
     }
 
+    /**
+     * 
+     * calculate the coordinate of the object in y
+     */
     public int getCoordY() {
 	int target = config.getCanvasHeightPx() - ((posY + 1) * config.getSquareHeightPx());
 	falling = true;
@@ -142,25 +163,16 @@ public class Square implements Serializable, Comparable<Square> {
 	this.falling = falling;
     }
 
-    @Override
-    public int compareTo(Square o) {
-	if (equals(o))
-	    return 0;
-	if (hashCode() > o.hashCode())
-	    return 1;
-	return -1;
-    }
-
     public Image getImage() {
 	return color.getImage();
     }
 
-    public boolean isSwaping() {
-	return swaping;
+    public boolean isSwapping() {
+	return swapping;
     }
 
-    public void setSwaping(boolean swaping) {
-	this.swaping = swaping;
+    public void setSwapping(boolean swaping) {
+	this.swapping = swaping;
     }
 
     public boolean isDeletable() {
